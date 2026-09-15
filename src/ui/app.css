@@ -1,0 +1,1118 @@
+/*
+ * Screen styles.
+ *
+ * Every value here comes from a custom property in theme/tokens.css. Nothing in
+ * this file may introduce a raw colour, spacing step or duration — that rule is
+ * the reason a change to the visual direction stays in one place.
+ */
+
+/* ── Shared ──────────────────────────────────────────────────────────── */
+
+.screen {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(ellipse 95% 70% at 42% 4%, #171c15 0%, var(--ink-ground) 62%);
+  font-family: var(--font-body);
+  color: var(--bone);
+}
+
+.screen--centred {
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+  padding: var(--s-7) var(--s-5);
+  text-align: center;
+}
+
+.kicker {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2rem, 7vw, 3.4rem);
+  letter-spacing: 0.05em;
+  color: var(--bone);
+}
+
+.title--sm {
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+}
+
+.lede {
+  margin: 0;
+  max-width: 34rem;
+  line-height: 1.6;
+  color: var(--bone-mute);
+}
+
+.lede--sm {
+  font-size: 13px;
+}
+
+.accent {
+  color: var(--ember);
+}
+
+.muted {
+  color: var(--bone-faint);
+}
+
+.chip,
+.tag {
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+  border: 1px solid var(--ink-carve);
+  padding: var(--s-1) var(--s-2);
+}
+
+.tag--you {
+  color: var(--ember);
+  border-color: var(--ember);
+}
+
+/* A slow breath, so "waiting" reads as alive rather than stuck. */
+.pulse {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: var(--s-2);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 9px var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+  }
+}
+
+.notice {
+  max-width: 34rem;
+  margin: var(--s-4) 0 0;
+  padding: var(--s-3) var(--s-4);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--bone-mute);
+  background: var(--ink-panel);
+  border: 1px solid var(--ink-carve);
+  border-left: 3px solid var(--ember);
+  text-align: left;
+}
+
+.notice--bad {
+  border-left-color: var(--blood);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── Lobby ───────────────────────────────────────────────────────────── */
+
+.lobby__go {
+  margin-top: var(--s-5);
+}
+
+.lobby__share {
+  width: min(32rem, 100%);
+  margin-top: var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.lobby__link {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.lobby__link input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: var(--s-3) var(--s-4);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ember-lit);
+  background: var(--ink-void);
+  border: 1px solid var(--ink-edge);
+}
+
+.lobby__link input:focus-visible {
+  outline: 2px solid var(--ember-lit);
+  outline-offset: 2px;
+}
+
+.lobby__status {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+
+/* ── Faction select ──────────────────────────────────────────────────── */
+
+.faction {
+  padding: var(--s-6) var(--s-6) var(--s-5);
+  gap: var(--s-5);
+}
+
+.faction__head {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.faction__realms {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: var(--s-6);
+  align-items: start;
+}
+
+.faction__seam {
+  align-self: stretch;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--ink-edge) 18%,
+    var(--ink-edge) 82%,
+    transparent 100%
+  );
+}
+
+.faction__foot {
+  text-align: center;
+}
+
+.faction__status {
+  margin: 0;
+  font-size: 13px;
+  color: var(--bone-faint);
+}
+
+.realm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.realm__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--ink-carve);
+}
+
+.realm--theirs .realm__head {
+  flex-direction: row-reverse;
+}
+
+.realm__cyrillic {
+  margin: 0;
+  font-size: 24px;
+  letter-spacing: 0.12em;
+  color: var(--bone-dim);
+}
+
+.realm__name {
+  flex: 1 1 auto;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+
+.hall {
+  position: relative;
+  display: flex;
+  gap: var(--s-4);
+  padding: var(--s-4);
+  background: var(--ink-panel);
+  border: 1px solid var(--ink-carve);
+  transition:
+    border-color var(--t-normal) var(--ease),
+    opacity var(--t-normal) var(--ease),
+    transform var(--t-normal) var(--ease);
+}
+
+.realm--mine .hall:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.hall--chosen {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, var(--ink-raised) 0%, var(--ink-panel) 100%);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--accent) 25%, transparent),
+    0 14px 30px -18px #000;
+}
+
+/* The opponent's halls you did not face stay recessed: what they might have
+   picked is not yours to study. */
+.hall--hidden {
+  opacity: 0.5;
+}
+
+/* One big hit target over the whole card, rather than a button beside it. */
+.hall__hit {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.hall__hit:focus-visible {
+  outline: 2px solid var(--ember-lit);
+  outline-offset: 2px;
+}
+
+.hall__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hall__title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2);
+}
+
+.hall__title h3 {
+  margin: 0;
+  font-size: 21px;
+  letter-spacing: 0.05em;
+}
+
+.hall__badge {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.hall__cyrillic {
+  margin: var(--s-1) 0 0;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--bone-faint);
+}
+
+.hall__blurb {
+  margin: var(--s-2) 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--bone-mute);
+  text-wrap: pretty;
+}
+
+.hall__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1);
+  margin-top: var(--s-3);
+}
+
+/* ── Recruit ─────────────────────────────────────────────────────────── */
+
+.recruit {
+  gap: 0;
+}
+
+.recruit__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s-4);
+  padding: var(--s-5) var(--s-6) var(--s-4);
+  border-bottom: 1px solid var(--ink-carve);
+}
+
+.recruit__hall {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.recruit__hall h1 {
+  margin: 0;
+}
+
+.recruit__purse {
+  display: flex;
+  align-items: center;
+  gap: var(--s-6);
+}
+
+.recruit__purse p {
+  margin: 0;
+  text-align: right;
+}
+
+.recruit__rule {
+  width: 1px;
+  height: 38px;
+  background: var(--ink-carve);
+}
+
+.recruit__spent {
+  font-size: 22px;
+  color: var(--bone-mute);
+}
+
+.recruit__left {
+  font-size: 32px;
+  line-height: 1;
+  color: var(--ember-lit);
+}
+
+.recruit__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: var(--s-5);
+  padding: var(--s-4) var(--s-6) var(--s-5);
+  align-items: stretch;
+}
+
+.recruit__units {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  min-height: 0;
+}
+
+/* Rows share the height rather than leaving a void under the list. */
+.recruit__units .unit {
+  flex: 1 1 0;
+}
+
+.unit {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-3) var(--s-4);
+  background: var(--ink-panel);
+  border: 1px solid var(--ink-carve);
+  border-left: 3px solid var(--accent);
+  transition: opacity var(--t-normal) var(--ease);
+}
+
+/* Dim only a stack you own none of AND cannot afford. Owning four Bogatyrs and
+   being short of a fifth is not a greyed-out row. */
+.unit--dim {
+  opacity: 0.55;
+}
+
+.unit__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.unit__title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+
+.unit__title h3 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 0.04em;
+}
+
+.unit__role {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--bone-faint);
+}
+
+.stats {
+  display: flex;
+  gap: var(--s-5);
+  margin: 0;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2px;
+  min-width: 44px;
+}
+
+.stat dd {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--bone-dim);
+}
+
+.stat dt {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+
+.unit__ability {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--bone-mute);
+}
+
+.unit__ability-name {
+  color: var(--bone-dim);
+}
+
+.unit__buy {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s-2);
+}
+
+.unit__price,
+.unit__subtotal {
+  margin: 0;
+  font-size: 12px;
+  color: var(--bone-faint);
+}
+
+.unit__subtotal {
+  font-size: 13px;
+  color: var(--ember);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.stepper__count {
+  min-width: 36px;
+  text-align: center;
+  font-size: 19px;
+  color: var(--bone);
+}
+
+.step {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--bone-dim);
+  background: var(--ink-raised);
+  border: 1px solid var(--ink-edge);
+  cursor: pointer;
+  transition:
+    border-color var(--t-quick) var(--ease),
+    color var(--t-quick) var(--ease);
+}
+
+.step:hover:not(:disabled) {
+  border-color: var(--ember);
+  color: var(--ember-lit);
+}
+
+.step:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.step:focus-visible {
+  outline: 2px solid var(--ember-lit);
+  outline-offset: 2px;
+}
+
+.recruit__rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.panel {
+  padding: var(--s-4);
+  background: var(--ink-panel);
+  border: 1px solid var(--ink-carve);
+}
+
+.panel--quiet {
+  background: var(--ink-void);
+}
+
+.panel__title {
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+
+.panel__title--sm {
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--bone-mute);
+}
+
+.panel__sub {
+  margin: var(--s-1) 0 var(--s-3);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--bone-faint);
+}
+
+.panel__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.panel__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2);
+  font-size: 13.5px;
+  color: var(--bone-dim);
+}
+
+.panel__empty,
+.panel__note {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--bone-ghost);
+  text-wrap: pretty;
+}
+
+/* ── Narrow screens ──────────────────────────────────────────────────── */
+
+@media (width < 900px) {
+  .faction__realms {
+    grid-template-columns: 1fr;
+  }
+
+  .faction__seam {
+    display: none;
+  }
+
+  .realm--theirs .realm__head {
+    flex-direction: row;
+  }
+
+  .recruit__body {
+    grid-template-columns: 1fr;
+  }
+
+  .unit {
+    flex-wrap: wrap;
+  }
+
+  .stats {
+    gap: var(--s-4);
+  }
+}
+
+/* ── Battle ──────────────────────────────────────────────────────────── */
+
+.battle {
+  gap: 0;
+  background: var(--ink-void);
+  overflow: hidden;
+}
+
+.battle__head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+  padding: var(--s-3) var(--s-6);
+  background: linear-gradient(180deg, var(--ink-panel) 0%, var(--ink-ground) 100%);
+  border-bottom: 1px solid var(--ink-carve);
+}
+
+.battle__round p {
+  margin: 0;
+}
+
+.battle__round-n {
+  font-size: 28px;
+  line-height: 1;
+  color: var(--ember-lit);
+}
+
+.battle__peer {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-mute);
+}
+
+.pulse--off {
+  background: var(--blood);
+  box-shadow: none;
+  animation: none;
+}
+
+.battle__field {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--s-2) var(--s-7);
+}
+
+.battle__banner {
+  position: absolute;
+  top: 50%;
+  writing-mode: vertical-rl;
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.battle__banner--left {
+  left: var(--s-3);
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.battle__banner--right {
+  right: var(--s-3);
+  transform: translateY(-50%);
+}
+
+.battle__boardwrap {
+  position: relative;
+  width: 100%;
+  max-width: 1240px;
+}
+
+.battle__board {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ── Hexes ───────────────────────────────────────────────────────────── */
+
+.hex {
+  transition:
+    fill var(--t-quick) var(--ease),
+    stroke var(--t-quick) var(--ease);
+}
+
+/* Reachable ground. The mottling keeps it from reading as graph paper. */
+.hex--open {
+  fill: #1f2820;
+  stroke: #36422f;
+  stroke-width: 1;
+  cursor: pointer;
+}
+
+.hex--open[data-tone='b'] {
+  fill: #1b241c;
+}
+
+.hex--open:hover {
+  fill: #2a352a;
+  stroke: var(--ember);
+}
+
+/* Out of reach this turn: sunk back into the dark, but still faintly drawn —
+   at full black the board looks like it simply ends where your reach does. */
+.hex--dark {
+  fill: #0b0e0c;
+  stroke: #161c17;
+  stroke-width: 1;
+}
+
+.hex--path {
+  fill: rgb(201 162 39 / 7%);
+  stroke: rgb(201 162 39 / 42%);
+  stroke-width: 1.2;
+}
+
+.hex--active {
+  fill: rgb(230 193 74 / 12%);
+  stroke: var(--ember-lit);
+  stroke-width: 1.8;
+}
+
+.hex--target {
+  fill: rgb(184 65 47 / 20%);
+  stroke: var(--blood);
+  stroke-width: 1.8;
+}
+
+.token {
+  cursor: pointer;
+  filter: drop-shadow(0 4px 5px rgb(0 0 0 / 75%));
+}
+
+.token__count {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Turn queue ──────────────────────────────────────────────────────── */
+
+.queue {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.queue__strip {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s-2);
+  margin: var(--s-2) 0 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+}
+
+.queue__item {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+.queue__item--spent {
+  opacity: 0.35;
+}
+
+.queue__count {
+  font-size: 10px;
+  color: var(--bone-faint);
+}
+
+.queue__item--active .queue__count {
+  color: var(--ember-lit);
+}
+
+/* ── Preview ─────────────────────────────────────────────────────────── */
+
+.preview {
+  position: absolute;
+  right: var(--s-2);
+  bottom: var(--s-2);
+  width: 220px;
+  padding: var(--s-3) var(--s-4);
+  background: rgb(11 15 14 / 95%);
+  border: 1px solid #5c2a20;
+  box-shadow: 0 16px 34px -16px rgb(0 0 0 / 95%);
+}
+
+.preview__head {
+  margin: 0 0 var(--s-2);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blood);
+}
+
+.preview__damage {
+  margin: 0;
+  font-size: 25px;
+  line-height: 1;
+  color: var(--bone);
+}
+
+.preview__sub {
+  margin: var(--s-1) 0 var(--s-3);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+
+.preview__rows {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  font-size: 12.5px;
+}
+
+.preview__rows > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-2);
+}
+
+.preview__rows dt {
+  color: var(--bone-mute);
+}
+
+.preview__rows dd {
+  margin: 0;
+  color: var(--bone-dim);
+}
+
+.preview__warn {
+  color: var(--blood);
+}
+
+/* ── Bottom bar ──────────────────────────────────────────────────────── */
+
+.battle__foot {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr) 300px;
+  background: linear-gradient(180deg, var(--ink-ground) 0%, var(--ink-panel) 100%);
+  border-top: 1px solid var(--ink-carve);
+}
+
+.log {
+  padding: var(--s-3) var(--s-4) var(--s-4) var(--s-6);
+  border-right: 1px solid var(--ink-carve);
+  min-width: 0;
+}
+
+.log__scroll {
+  margin-top: var(--s-2);
+  max-height: 104px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+
+.log__line {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--bone-mute);
+  text-wrap: pretty;
+}
+
+.log__line--retaliate {
+  color: var(--blood);
+}
+
+.log__line--end {
+  color: var(--ember-lit);
+}
+
+.active {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-3) var(--s-5) var(--s-4);
+  border-right: 1px solid var(--ink-carve);
+  min-width: 0;
+}
+
+.active__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.active__title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+
+.active__title h2 {
+  margin: 0;
+  font-size: 21px;
+  letter-spacing: 0.05em;
+}
+
+.active__count {
+  font-size: 15px;
+  color: var(--ember-lit);
+}
+
+.active__turn {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-6) var(--s-4) var(--s-4);
+}
+
+.actions__pair {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.actions__pair .btn {
+  flex: 1 1 0;
+  padding: var(--s-3);
+  font-size: 12px;
+}
+
+.actions__hint,
+.actions__waiting {
+  margin: 0;
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--bone-ghost);
+}
+
+/* ── Result ──────────────────────────────────────────────────────────── */
+
+.result__survivors {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s-4);
+  margin: var(--s-5) 0;
+}
+
+.result__survivor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+.result__name {
+  margin: var(--s-1) 0 0;
+  font-size: 13px;
+  color: var(--bone-dim);
+}
+
+.result__count {
+  margin: 0;
+  font-size: 12px;
+  color: var(--bone-faint);
+}
+
+@media (width < 900px) {
+  .battle__foot {
+    grid-template-columns: 1fr;
+  }
+
+  .log,
+  .active {
+    border-right: 0;
+    border-bottom: 1px solid var(--ink-carve);
+  }
+
+  .battle__banner {
+    display: none;
+  }
+}
+
+/* ── Share bar ───────────────────────────────────────────────────────── */
+
+/* Pinned above whatever screen is showing, until the opponent arrives. */
+.sharebar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-6);
+  background: var(--ink-void);
+  border-bottom: 1px solid var(--ember);
+}
+
+.sharebar__label {
+  margin: 0;
+  flex: 0 0 auto;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ember);
+}
+
+.sharebar__url {
+  flex: 1 1 18rem;
+  min-width: 0;
+  padding: var(--s-2) var(--s-3);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ember-lit);
+  background: var(--ink-ground);
+  border: 1px solid var(--ink-edge);
+}
+
+.sharebar__url:focus-visible {
+  outline: 2px solid var(--ember-lit);
+  outline-offset: 2px;
+}
+
+.sharebar__copy {
+  flex: 0 0 auto;
+  padding: var(--s-2) var(--s-4);
+  font-size: 12px;
+}
+
+.sharebar__note {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--bone-faint);
+}

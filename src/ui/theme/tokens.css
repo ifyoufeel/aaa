@@ -1,0 +1,146 @@
+/*
+ * The visual language, in one file.
+ *
+ * Nothing outside this file hardcodes a colour, a spacing step or a duration.
+ * When the design changes, it changes here — that is the whole point of the
+ * layer, and the reason the design canvas was built before the screens were.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* ── Ground ───────────────────────────────────────────────────────── */
+  --ink-void: #080a09;
+  --ink-ground: #0d100e;
+  --ink-panel: #141916;
+  --ink-raised: #1b211d;
+  --ink-carve: #262e28;
+  --ink-edge: #38423a;
+
+  /* ── Ink ──────────────────────────────────────────────────────────── */
+  --bone: #e9e1ce;
+  --bone-dim: #b3ad9c;
+  --bone-mute: #8f9789;
+  --bone-faint: #6d7468;
+  --bone-ghost: #5f6a5f;
+
+  /* ── Accents ──────────────────────────────────────────────────────── */
+  --ember: #c9a227;
+  --ember-lit: #e6c14a;
+  --ember-rim: #f0d878;
+  --blood: #b8412f;
+
+  /* ── Faction ink ──────────────────────────────────────────────────── */
+  --kitezh: #a24d33;
+  --borovina: #5f7f39;
+  --gromoboy: #6f8fa8;
+  --kostyanoy: #9a927c;
+  --topyla: #3d7a76;
+  --yagaya: #7b5a93;
+
+  /* Set per-screen to whichever faction is in play. */
+  --accent: var(--ember);
+
+  /* ── Type ─────────────────────────────────────────────────────────── */
+  --font-display: Forum, 'Trajan Pro', Palatino, 'Palatino Linotype', serif;
+  --font-body: Spectral, 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ── Space ────────────────────────────────────────────────────────── */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+
+  /* ── Motion ───────────────────────────────────────────────────────── */
+  --t-quick: 120ms;
+  --t-normal: 220ms;
+  --t-slow: 420ms;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* ── Texture ──────────────────────────────────────────────────────── */
+  /* Linen grain. Dark fantasy reads as cheap when it is flat black. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+/* Someone who has asked for less movement gets less movement. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-quick: 1ms;
+    --t-normal: 1ms;
+    --t-slow: 1ms;
+  }
+}
+
+/* ── Shared primitives ──────────────────────────────────────────────── */
+
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: var(--grain);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* A shield plaque. Used for faction crests and for every unit token. */
+.plaque {
+  display: grid;
+  place-items: center;
+  background: var(--ink-void);
+  clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);
+}
+
+.btn {
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: var(--s-4) var(--s-5);
+  background: var(--ink-panel);
+  border: 1px solid var(--ink-edge);
+  color: var(--bone-dim);
+  cursor: pointer;
+  transition:
+    border-color var(--t-quick) var(--ease),
+    color var(--t-quick) var(--ease);
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--ember);
+  color: var(--ember-lit);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  color: #120f06;
+  background: linear-gradient(180deg, var(--ember-lit) 0%, var(--ember) 100%);
+  border-color: var(--ember-rim);
+  box-shadow: 0 10px 26px -12px rgb(201 162 39 / 55%);
+}
+
+.btn--primary:hover:not(:disabled) {
+  color: #120f06;
+  filter: brightness(1.08);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ember-lit);
+  outline-offset: 2px;
+}
