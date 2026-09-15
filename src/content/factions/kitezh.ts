@@ -1,7 +1,14 @@
 import type { FactionDef } from '../types'
 
 /**
- * Kitezh — the reference faction. Everything else is balanced against this one:
+ * Kitezh — the reference faction, and the one that pays for reliability in
+ * stats rather than tricks.
+ *
+ * Every one of its abilities is conditional: Pike Wall only against a charge,
+ * Shield Wall only against shooters, Volley only if it held still. Every other
+ * hall's fire unconditionally. That is the identity, but it has to be paid for
+ * -- with situational abilities and average numbers the hall won 21% of its
+ * battles -- so Kitezh carries the sturdiest bodies in the game. Everything else is balanced against this one:
  * a straight line of foot, shooters and one heavy rider, with no tricks beyond
  * standing where it was told to stand.
  */
@@ -23,7 +30,7 @@ export const kitezh: FactionDef = {
       role: 'spearman',
       cost: 15,
       maxCount: 40,
-      stats: { attack: 4, defense: 5, damage: [1, 3], hp: 10, speed: 4, initiative: 8 },
+      stats: { attack: 4, defense: 6, damage: [1, 3], hp: 12, speed: 4, initiative: 8 },
       ability: {
         id: 'pike-wall',
         name: 'Pike Wall',
@@ -37,7 +44,7 @@ export const kitezh: FactionDef = {
       role: 'archer',
       cost: 25,
       maxCount: 24,
-      stats: { attack: 6, defense: 3, damage: [2, 4], hp: 9, speed: 4, initiative: 9 },
+      stats: { attack: 6, defense: 4, damage: [2, 4], hp: 11, speed: 4, initiative: 9 },
       ranged: { shots: 8, meleePenalty: 0.5 },
       ability: {
         id: 'volley',
@@ -52,7 +59,7 @@ export const kitezh: FactionDef = {
       role: 'guard',
       cost: 45,
       maxCount: 14,
-      stats: { attack: 8, defense: 9, damage: [3, 6], hp: 24, speed: 4, initiative: 7 },
+      stats: { attack: 8, defense: 10, damage: [3, 6], hp: 28, speed: 4, initiative: 7 },
       ability: {
         id: 'shield-wall',
         name: 'Shield Wall',
@@ -66,7 +73,7 @@ export const kitezh: FactionDef = {
       role: 'champion',
       cost: 90,
       maxCount: 8,
-      stats: { attack: 12, defense: 8, damage: [6, 10], hp: 36, speed: 8, initiative: 11 },
+      stats: { attack: 12, defense: 9, damage: [6, 10], hp: 40, speed: 8, initiative: 11 },
       ability: {
         id: 'charge',
         name: 'Charge',

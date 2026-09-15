@@ -149,6 +149,25 @@ describe('Borovina', () => {
     expect(get(after, 'yav:kikimora').effects.some((e) => e.kind === 'skittered')).toBe(true)
   })
 
+  it('Skitter does not swallow the victory when the kill wins the battle', () => {
+    // The bonus action returns early, bypassing the end-of-turn victory check.
+    // A stack that killed the last enemy and then skittered left the game with
+    // no outcome and no legal move, frozen on its own turn.
+    const lone = createBattle(
+      5,
+      { side: 'yav', factionId: 'borovina', counts: { kikimora: 30 } },
+      { side: 'nav', factionId: 'topyla', counts: { mavka: 1 } },
+    )
+    const start = stage(
+      lone,
+      { 'yav:kikimora': { at: [7, 5] }, 'nav:mavka': { at: [8, 5], count: 1, topHp: 1 } },
+      'yav:kikimora',
+    )
+    const after = act(start, { type: 'attack', target: 'nav:mavka' })
+    expect(after.outcome).toEqual({ winner: 'yav' })
+    expect(after.activeId).toBeNull()
+  })
+
   it('Pack hits harder when an ally already has the target engaged', () => {
     const lone = stage(
       battle('borovina', 'topyla'),

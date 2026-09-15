@@ -34,7 +34,7 @@ export const borovina: FactionDef = {
       name: 'Borovik',
       cyrillic: 'БОРОВИК',
       role: 'spore-thrower',
-      cost: 30,
+      cost: 36,
       maxCount: 24,
       stats: { attack: 7, defense: 5, damage: [3, 5], hp: 14, speed: 4, initiative: 8 },
       ranged: { shots: 10, meleePenalty: 0.5 },

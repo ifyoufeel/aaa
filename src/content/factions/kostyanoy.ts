@@ -1,7 +1,12 @@
 import type { FactionDef } from '../types'
 
 /**
- * Kostyanoy Dvor — the only faction with NO shooter. That is deliberate, and
+ * Kostyanoy Dvor — the only faction with NO shooter.
+ *
+ * It is still paid for that in health per gold, healing and a capstone that
+ * refuses to die, but far less than it first was: the original prices made
+ * Kost' cheaper, tougher AND better armoured than Kitezh's spearman, and the
+ * hall won 90% of every simulated battle. That is deliberate, and
  * it is the sharpest asymmetry in the game: the bone court has to walk into
  * range while being shot at, and is paid for it in health per gold, healing
  * and a capstone that refuses to die once.
@@ -26,13 +31,13 @@ export const kostyanoy: FactionDef = {
       name: "Kost'",
       cyrillic: 'КОСТЬ',
       role: 'skeleton',
-      cost: 12,
+      cost: 15,
       maxCount: 40,
       stats: { attack: 4, defense: 6, damage: [1, 3], hp: 12, speed: 3, initiative: 5 },
       ability: {
         id: 'reassemble',
         name: 'Reassemble',
-        text: 'The stack recovers 1 health at the start of every round.',
+        text: 'Recovers health at the start of every round.',
       },
     },
     {
@@ -40,13 +45,13 @@ export const kostyanoy: FactionDef = {
       name: 'Vurdalak',
       cyrillic: 'ВУРДАЛАК',
       role: 'ghoul',
-      cost: 38,
+      cost: 42,
       maxCount: 24,
       stats: { attack: 8, defense: 5, damage: [3, 6], hp: 20, speed: 5, initiative: 8 },
       ability: {
         id: 'gorge',
         name: 'Gorge',
-        text: '+2 Attack for the rest of the battle each time it destroys a unit.',
+        text: '+2 Attack for the rest of the battle each time it kills, up to +12.',
       },
     },
     {
@@ -54,13 +59,13 @@ export const kostyanoy: FactionDef = {
       name: "Upyr'",
       cyrillic: 'УПЫРЬ',
       role: 'revenant',
-      cost: 62,
+      cost: 66,
       maxCount: 14,
       stats: { attack: 10, defense: 7, damage: [4, 8], hp: 30, speed: 5, initiative: 9 },
       ability: {
         id: 'drain',
         name: 'Drain',
-        text: 'Heals the stack for half the damage it deals.',
+        text: 'Heals the stack for a third of the damage it deals.',
       },
     },
     {
@@ -68,7 +73,7 @@ export const kostyanoy: FactionDef = {
       name: 'Kostolom',
       cyrillic: 'КОСТОЛОМ',
       role: 'bone giant',
-      cost: 105,
+      cost: 115,
       maxCount: 8,
       stats: { attack: 13, defense: 12, damage: [6, 11], hp: 55, speed: 4, initiative: 6 },
       ability: {
@@ -82,7 +87,7 @@ export const kostyanoy: FactionDef = {
       name: 'Bessmertnyy',
       cyrillic: 'БЕССМЕРТНЫЙ',
       role: 'the deathless',
-      cost: 190,
+      cost: 205,
       maxCount: 5,
       stats: { attack: 15, defense: 13, damage: [9, 15], hp: 80, speed: 5, initiative: 8 },
       ability: {

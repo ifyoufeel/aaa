@@ -36,6 +36,9 @@ import type { Action, BattleState, EffectKind, LogEntry, Stack } from './types'
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
+/** Most attack a Gorge stack can accumulate in one battle. */
+const GORGE_CAP = 12
+
 const byId = (state: BattleState, id: string): Stack | undefined =>
   state.stacks.find((s) => s.id === id)
 
@@ -219,7 +222,7 @@ function endTurn(state: BattleState): BattleState {
         if (!isAlive(stood)) return stood
         // Reassemble: bones find each other again overnight.
         if (hasAbility(stood, 'reassemble')) {
-          return healStack(stood, stood.count, stood.count)
+          return healStack(stood, Math.ceil(stood.count / 2), stood.count)
         }
         return stood
       }),
@@ -463,8 +466,15 @@ function applyAttack(
 
   // Skitter: a kill buys another action, but only one a turn -- a chain of
   // kills granting endless activations would let one stack clear the board.
+  //
+  // Not if that kill won the battle, though. This path returns without going
+  // through endTurn, which is where victory is noticed: a stack that killed the
+  // last enemy and then skittered left the game with no outcome and no legal
+  // move, frozen on its own turn.
   const skittering = byId(next, active.id)!
+  const enemiesLeft = next.stacks.some((s) => s.side !== active.side && isAlive(s))
   if (
+    enemiesLeft &&
     hasAbility(skittering, 'skitter') &&
     hit.killed > 0 &&
     isAlive(skittering) &&
@@ -535,9 +545,14 @@ function applyPostAttack(
   let next = state
 
   // Gorge: a ghoul that has eaten hits harder for the rest of the battle.
+  //
+  // Per killing BLOW, not per unit killed, and capped. Scaling with the body
+  // count meant one swing through a chaff stack handed it +40 attack, which
+  // pinned the damage modifier at its ceiling for the rest of the battle and
+  // won Kostyanoy 91% of everything.
   if (hasAbility(attacker, 'gorge') && killed > 0) {
     const fed = byId(next, attackerId)!
-    next = replace(next, { ...fed, attackBonus: fed.attackBonus + 2 * killed })
+    next = replace(next, { ...fed, attackBonus: Math.min(GORGE_CAP, fed.attackBonus + 2) })
   }
 
   // Drain: half of what it dealt comes back, but never past its starting size.
@@ -545,7 +560,7 @@ function applyPostAttack(
     const drained = byId(next, attackerId)!
     const dealt = state.log.at(-1)?.damage ?? 0
     if (dealt > 0 && isAlive(drained)) {
-      next = replace(next, healStack(drained, Math.floor(dealt / 2), drained.count))
+      next = replace(next, healStack(drained, Math.floor(dealt / 3), drained.count))
     }
   }
 

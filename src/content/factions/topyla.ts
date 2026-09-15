@@ -25,7 +25,7 @@ export const topyla: FactionDef = {
       role: 'drowned girl',
       cost: 16,
       maxCount: 40,
-      stats: { attack: 4, defense: 4, damage: [1, 4], hp: 11, speed: 6, initiative: 9 },
+      stats: { attack: 4, defense: 4, damage: [1, 4], hp: 13, speed: 6, initiative: 9 },
       ability: {
         id: 'beckon',
         name: 'Beckon',
@@ -39,7 +39,7 @@ export const topyla: FactionDef = {
       role: 'siren',
       cost: 44,
       maxCount: 24,
-      stats: { attack: 7, defense: 4, damage: [3, 5], hp: 12, speed: 5, initiative: 11 },
+      stats: { attack: 7, defense: 4, damage: [3, 5], hp: 15, speed: 5, initiative: 11 },
       ranged: { shots: 7, meleePenalty: 0.5 },
       ability: {
         id: 'siren-song',
