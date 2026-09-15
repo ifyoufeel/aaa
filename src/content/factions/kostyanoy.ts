@@ -27,6 +27,7 @@ export const kostyanoy: FactionDef = {
       cyrillic: 'КОСТЬ',
       role: 'skeleton',
       cost: 12,
+      maxCount: 40,
       stats: { attack: 4, defense: 6, damage: [1, 3], hp: 12, speed: 3, initiative: 5 },
       ability: {
         id: 'reassemble',
@@ -40,6 +41,7 @@ export const kostyanoy: FactionDef = {
       cyrillic: 'ВУРДАЛАК',
       role: 'ghoul',
       cost: 38,
+      maxCount: 24,
       stats: { attack: 8, defense: 5, damage: [3, 6], hp: 20, speed: 5, initiative: 8 },
       ability: {
         id: 'gorge',
@@ -53,6 +55,7 @@ export const kostyanoy: FactionDef = {
       cyrillic: 'УПЫРЬ',
       role: 'revenant',
       cost: 62,
+      maxCount: 14,
       stats: { attack: 10, defense: 7, damage: [4, 8], hp: 30, speed: 5, initiative: 9 },
       ability: {
         id: 'drain',
@@ -66,6 +69,7 @@ export const kostyanoy: FactionDef = {
       cyrillic: 'КОСТОЛОМ',
       role: 'bone giant',
       cost: 105,
+      maxCount: 8,
       stats: { attack: 13, defense: 12, damage: [6, 11], hp: 55, speed: 4, initiative: 6 },
       ability: {
         id: 'sunder',
@@ -79,6 +83,7 @@ export const kostyanoy: FactionDef = {
       cyrillic: 'БЕССМЕРТНЫЙ',
       role: 'the deathless',
       cost: 190,
+      maxCount: 5,
       stats: { attack: 15, defense: 13, damage: [9, 15], hp: 80, speed: 5, initiative: 8 },
       ability: {
         id: 'deathless',

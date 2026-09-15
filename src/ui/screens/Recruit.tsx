@@ -58,14 +58,13 @@ export function Recruit({
   function adjust(unitId: string, delta: number) {
     setCounts((current) => {
       const unit = faction.units.find((u) => u.id === unitId)!
-      const next = Math.max(0, (current[unitId] ?? 0) + delta)
+      const next = Math.min(unit.maxCount, Math.max(0, (current[unitId] ?? 0) + delta))
       const wouldSpend =
         faction.units.reduce(
           (sum, u) => sum + u.cost * (u.id === unitId ? next : (current[u.id] ?? 0)),
           0,
         )
       if (wouldSpend > GOLD_BUDGET) return current
-      void unit
       return { ...current, [unitId]: next }
     })
   }
@@ -97,7 +96,8 @@ export function Recruit({
         <section className="recruit__units">
           {faction.units.map((unit) => {
             const held = counts[unit.id] ?? 0
-            const affordable = unit.cost <= left
+            const atCap = held >= unit.maxCount
+            const affordable = unit.cost <= left && !atCap
             return (
               <article key={unit.id} className={`unit ${held || affordable ? '' : 'unit--dim'}`}>
                 <Plaque
@@ -130,7 +130,9 @@ export function Recruit({
                   </p>
                 </div>
                 <div className="unit__buy">
-                  <p className="unit__price tnum">{unit.cost} g each</p>
+                  <p className="unit__price tnum">
+                    {unit.cost} g each &middot; max {unit.maxCount}
+                  </p>
                   <div className="stepper">
                     <button
                       type="button"
@@ -153,7 +155,9 @@ export function Recruit({
                     </button>
                   </div>
                   <p className="unit__subtotal tnum">
-                    {held > 0
+                    {atCap
+                      ? `${held * unit.cost} g \u00b7 full`
+                      : held > 0
                       ? `${held * unit.cost} g`
                       : affordable
                         ? /* Affordable, just none bought yet -- say nothing. */ '\u00a0'

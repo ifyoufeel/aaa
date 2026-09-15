@@ -6,7 +6,7 @@
  * construct the identical opening state without exchanging it.
  */
 
-import { BOARD } from '../content/balance'
+import { BOARD, GOLD_BUDGET } from '../content/balance'
 import { getFaction } from '../content/factions'
 import { offsetToAxial } from '../hex'
 import type { ArmyOrder, BattleState, Stack } from './types'
@@ -28,6 +28,19 @@ function deployRows(stackCount: number): number[] {
 
 function buildStacks(order: ArmyOrder): Stack[] {
   const faction = getFaction(order.factionId)
+  // Army orders cross the wire from the opponent's browser, so the recruitment
+  // screen disabling a button is not enforcement. Clamp here, where it counts.
+  for (const unit of faction.units) {
+    const asked = order.counts[unit.id] ?? 0
+    if (asked > unit.maxCount) {
+      throw new Error(
+        `${order.side} asked for ${asked} ${unit.name}, more than the ${unit.maxCount} allowed`,
+      )
+    }
+    if (asked < 0 || !Number.isInteger(asked)) {
+      throw new Error(`${order.side} asked for a nonsense number of ${unit.name}: ${asked}`)
+    }
+  }
   // Roster order, not the order the counts happened to be written in, so
   // deployment is identical for identical armies.
   const bought = faction.units
@@ -57,6 +70,14 @@ export function createBattle(seed: number, yav: ArmyOrder, nav: ArmyOrder): Batt
   if (yav.side !== 'yav' || nav.side !== 'nav') {
     throw new Error('createBattle expects one yav order and one nav order')
   }
+  for (const order of [yav, nav]) {
+    const faction = getFaction(order.factionId)
+    const spent = faction.units.reduce((n, u) => n + u.cost * (order.counts[u.id] ?? 0), 0)
+    if (spent > GOLD_BUDGET) {
+      throw new Error(`${order.side} spent ${spent} gold, over the ${GOLD_BUDGET} budget`)
+    }
+  }
+
   const yavStacks = buildStacks(yav)
   const navStacks = buildStacks(nav)
   // A side with nothing on the field has already lost, which is not a battle.

@@ -1,3 +1,4 @@
+import { BALANCED_WEIGHTS, buildArmy } from '../content/army'
 import { hashState } from '../engine/hash'
 import { recordingRng, replayRng, seededRng } from '../engine/rng'
 import { expect as expectOk } from '../engine/result'
@@ -12,12 +13,12 @@ import type { Action, ArmyOrder, BattleState, Stack } from './types'
 const KITEZH: ArmyOrder = {
   side: 'yav',
   factionId: 'kitezh',
-  counts: { kmet: 24, strelets: 12, gridin: 6, bogatyr: 4, volkhv: 1 },
+  counts: buildArmy('kitezh', BALANCED_WEIGHTS),
 }
 const TOPYLA: ArmyOrder = {
   side: 'nav',
   factionId: 'topyla',
-  counts: { mavka: 20, rusalka: 9, bolotnik: 5, drekavac: 4, vodyanoy: 1 },
+  counts: buildArmy('topyla', BALANCED_WEIGHTS),
 }
 
 const fresh = (seed = 1) => createBattle(seed, KITEZH, TOPYLA)
@@ -114,7 +115,7 @@ describe('retaliation', () => {
       applyAction(state, { type: 'shoot', target: 'nav:mavka' }, seededRng(4)),
     )
     expect(after.log.some((e) => e.kind === 'retaliate')).toBe(false)
-    expect(get(after, 'yav:strelets').ammo).toBe(11)
+    expect(get(after, 'yav:strelets').ammo).toBe(get(state, 'yav:strelets').ammo - 1)
   })
 
   it('is suppressed by Shriek', () => {
@@ -196,8 +197,15 @@ describe('abilities', () => {
   })
 
   it('Drag Under trades places with the target', () => {
+    // The balanced purse does not stretch to a Vodyanoy, so this one battle is
+    // fielded with the capstone weighted in.
+    const withLord = createBattle(2, KITEZH, {
+      side: 'nav',
+      factionId: 'topyla',
+      counts: buildArmy('topyla', [0.2, 0, 0, 0, 1]),
+    })
     const state = stage(
-      fresh(),
+      withLord,
       { 'nav:vodyanoy': { at: [7, 5] }, 'yav:kmet': { at: [8, 5] } },
       'nav:vodyanoy',
     )

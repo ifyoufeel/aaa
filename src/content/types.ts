@@ -74,6 +74,21 @@ export interface UnitDef {
   /** Lowercase role shown beside the name, e.g. "spearman". */
   readonly role: string
   readonly cost: number
+  /**
+   * Most of this unit one side may field, standing in for HoMM3's dwelling
+   * growth.
+   *
+   * Without a cap the game is decided by arithmetic rather than by choice: a
+   * stack of N deals N x damage AND has N x health, so its effectiveness goes
+   * as N-squared and value per gold goes as (hp x damage) / cost-squared. On
+   * that measure the cheapest unit in every hall beat the dearest by about
+   * seven to one, and simulated armies of pure chaff won ~97% of battles. No
+   * stat tuning fixes a quadratic; limiting numbers does.
+   *
+   * Caps are set so a full complement of any one unit costs roughly 40-48% of
+   * the purse, which forces every army to be at least three units wide.
+   */
+  readonly maxCount: number
   readonly stats: UnitStats
   /** Present only on stacks that shoot. */
   readonly ranged?: RangedProfile

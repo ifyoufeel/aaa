@@ -24,6 +24,7 @@ export const topyla: FactionDef = {
       cyrillic: 'МАВКА',
       role: 'drowned girl',
       cost: 16,
+      maxCount: 40,
       stats: { attack: 4, defense: 4, damage: [1, 4], hp: 11, speed: 6, initiative: 9 },
       ability: {
         id: 'beckon',
@@ -36,9 +37,10 @@ export const topyla: FactionDef = {
       name: 'Rusalka',
       cyrillic: 'РУСАЛКА',
       role: 'siren',
-      cost: 42,
-      stats: { attack: 7, defense: 4, damage: [3, 5], hp: 18, speed: 5, initiative: 11 },
-      ranged: { shots: 10, meleePenalty: 0.5 },
+      cost: 44,
+      maxCount: 24,
+      stats: { attack: 7, defense: 4, damage: [3, 5], hp: 12, speed: 5, initiative: 11 },
+      ranged: { shots: 7, meleePenalty: 0.5 },
       ability: {
         id: 'siren-song',
         name: 'Siren Song',
@@ -51,6 +53,7 @@ export const topyla: FactionDef = {
       cyrillic: 'БОЛОТНИК',
       role: 'mire-warden',
       cost: 58,
+      maxCount: 14,
       stats: { attack: 9, defense: 10, damage: [4, 7], hp: 34, speed: 4, initiative: 6 },
       ability: {
         id: 'mire',
@@ -64,6 +67,7 @@ export const topyla: FactionDef = {
       cyrillic: 'ДРЕКАВАЦ',
       role: 'screamer',
       cost: 95,
+      maxCount: 8,
       stats: { attack: 12, defense: 7, damage: [6, 10], hp: 36, speed: 8, initiative: 12 },
       ability: {
         id: 'shriek',
@@ -77,7 +81,8 @@ export const topyla: FactionDef = {
       cyrillic: 'ВОДЯНОЙ',
       role: 'lord of the mere',
       cost: 185,
-      stats: { attack: 14, defense: 12, damage: [8, 14], hp: 75, speed: 5, initiative: 7 },
+      maxCount: 5,
+      stats: { attack: 14, defense: 12, damage: [9, 16], hp: 88, speed: 5, initiative: 7 },
       ability: {
         id: 'drag-under',
         name: 'Drag Under',

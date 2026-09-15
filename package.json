@@ -12,7 +12,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
-    "docs:factions": "tsx scripts/gen-faction-docs.ts"
+    "docs:factions": "tsx scripts/gen-faction-docs.ts",
+    "simulate": "tsx scripts/simulate.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.116.0",

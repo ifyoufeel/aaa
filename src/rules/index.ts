@@ -1,4 +1,5 @@
 export { applyAction, blockedHexes } from './apply'
+export { chooseAction } from './ai'
 export {
   IMPLEMENTED as IMPLEMENTED_ABILITIES,
   effectiveSpeed,

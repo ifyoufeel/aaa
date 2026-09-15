@@ -12,7 +12,7 @@
  * instead of silently doing nothing on the battlefield.
  */
 
-import { RANGED } from '../content/balance'
+import { CHARGE, RANGED } from '../content/balance'
 import type { AbilityId } from '../content/types'
 import { hexDistance, isAdjacent } from '../hex'
 import { isAlive, unitOf } from './stack'
@@ -95,9 +95,10 @@ export function effectiveDefense(ctx: AttackContext): number {
 export function outgoingMultipliers(ctx: AttackContext): number[] {
   const out: number[] = []
 
-  // Charge: a quarter more for every hex crossed to reach the target.
+  // Charge: harder the further it came, but capped -- uncapped it was worth
+  // +150% across the field and cavalry beat everything 96% of the time.
   if (hasAbility(ctx.attacker, 'charge') && ctx.kind === 'melee' && ctx.moved > 0) {
-    out.push(1 + 0.25 * ctx.moved)
+    out.push(Math.min(1 + CHARGE.perHex * ctx.moved, CHARGE.cap))
   }
 
   if (ctx.kind === 'shoot') {
@@ -127,7 +128,7 @@ export function incomingMultipliers(ctx: AttackContext): number[] {
 
   // Ward: a wardspeaker standing alongside takes the edge off.
   if (alliesAround(ctx.state, ctx.defender).some((a) => hasAbility(a, 'ward'))) {
-    out.push(0.85)
+    out.push(0.8)
   }
 
   return out

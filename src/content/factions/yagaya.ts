@@ -25,6 +25,7 @@ export const yagaya: FactionDef = {
       cyrillic: 'ЗМОРА',
       role: 'night-mare',
       cost: 18,
+      maxCount: 40,
       stats: { attack: 4, defense: 3, damage: [1, 4], hp: 9, speed: 7, initiative: 11 },
       ability: {
         id: 'nightmare',
@@ -38,6 +39,7 @@ export const yagaya: FactionDef = {
       cyrillic: 'ВЕДЬМА',
       role: 'witch',
       cost: 44,
+      maxCount: 24,
       stats: { attack: 7, defense: 4, damage: [3, 6], hp: 17, speed: 5, initiative: 10 },
       ranged: { shots: 9, meleePenalty: 0.5 },
       ability: {
@@ -52,6 +54,7 @@ export const yagaya: FactionDef = {
       cyrillic: 'ЛИХО',
       role: 'one-eyed woe',
       cost: 68,
+      maxCount: 14,
       stats: { attack: 10, defense: 7, damage: [4, 8], hp: 30, speed: 6, initiative: 9 },
       ability: {
         id: 'misfortune',
@@ -65,6 +68,7 @@ export const yagaya: FactionDef = {
       cyrillic: 'ИЗБА',
       role: 'the hut',
       cost: 130,
+      maxCount: 8,
       stats: { attack: 13, defense: 14, damage: [6, 12], hp: 70, speed: 6, initiative: 5 },
       ability: {
         id: 'turns-to-face',
@@ -78,6 +82,7 @@ export const yagaya: FactionDef = {
       cyrillic: 'БАБА ЯГА',
       role: 'the grandmother',
       cost: 210,
+      maxCount: 5,
       stats: { attack: 15, defense: 11, damage: [9, 16], hp: 65, speed: 7, initiative: 12 },
       ability: {
         id: 'mortar',

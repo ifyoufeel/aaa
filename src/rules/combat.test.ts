@@ -1,3 +1,4 @@
+import { BALANCED_WEIGHTS, buildArmy } from '../content/army'
 import { DAMAGE } from '../content/balance'
 import { hashState } from '../engine/hash'
 import { recordingRng, seededRng } from '../engine/rng'
@@ -13,12 +14,12 @@ import type { ArmyOrder, BattleState } from './types'
 const KITEZH: ArmyOrder = {
   side: 'yav',
   factionId: 'kitezh',
-  counts: { kmet: 24, strelets: 12, gridin: 6, bogatyr: 4, volkhv: 1 },
+  counts: buildArmy('kitezh', BALANCED_WEIGHTS),
 }
 const TOPYLA: ArmyOrder = {
   side: 'nav',
   factionId: 'topyla',
-  counts: { mavka: 20, rusalka: 9, bolotnik: 5, drekavac: 4, vodyanoy: 1 },
+  counts: buildArmy('topyla', BALANCED_WEIGHTS),
 }
 
 const fresh = (seed = 1) => createBattle(seed, KITEZH, TOPYLA)
@@ -91,28 +92,36 @@ describe('damageRange', () => {
 })
 
 describe('applyDamage', () => {
-  const s = () => stack(fresh(), 'yav:kmet') // 24 Kmet at 10 hp each
+  // Counts come from the roster, so a price or stat change cannot quietly
+  // invalidate the arithmetic these assertions are checking.
+  const s = () => stack(fresh(), 'yav:kmet')
+  const hp = () => unitOf(s()).stats.hp
+  const pool = () => poolHp(s())
 
   it('eats the pool from the top, wounding only one unit', () => {
-    const out = applyDamage(s(), 25)
+    const start = s()
+    const damage = hp() * 2 + 5
+    const out = applyDamage(start, damage)
     expect(out.killed).toBe(2)
-    expect(out.stack.count).toBe(22)
-    expect(out.stack.topHp).toBe(5)
-    expect(poolHp(out.stack)).toBe(240 - 25)
+    expect(out.stack.count).toBe(start.count - 2)
+    expect(out.stack.topHp).toBe(hp() - 5)
+    expect(poolHp(out.stack)).toBe(pool() - damage)
   })
 
   it('kills exactly on a round number without over-killing', () => {
-    const out = applyDamage(s(), 30)
+    const start = s()
+    const out = applyDamage(start, hp() * 3)
     expect(out.killed).toBe(3)
-    expect(out.stack.count).toBe(21)
-    expect(out.stack.topHp).toBe(10)
+    expect(out.stack.count).toBe(start.count - 3)
+    expect(out.stack.topHp).toBe(hp())
   })
 
   it('destroys the stack and reports only the damage it could absorb', () => {
+    const before = pool()
     const out = applyDamage(s(), 10_000)
     expect(out.destroyed).toBe(true)
     expect(out.stack.count).toBe(0)
-    expect(out.dealt).toBe(240)
+    expect(out.dealt).toBe(before)
   })
 
   it('ignores zero and negative damage', () => {
@@ -124,9 +133,11 @@ describe('applyDamage', () => {
 describe('setup', () => {
   it('deploys both armies on opposite edges', () => {
     const state = fresh()
-    expect(state.stacks).toHaveLength(10)
     const yav = state.stacks.filter((s) => s.side === 'yav')
     const nav = state.stacks.filter((s) => s.side === 'nav')
+    expect(yav.length).toBeGreaterThan(0)
+    expect(nav.length).toBeGreaterThan(0)
+    // Nobody starts within reach of anybody: the first round is always a march.
     for (const a of yav) {
       for (const b of nav) expect(hexDistance(a.hex, b.hex)).toBeGreaterThan(5)
     }
@@ -139,7 +150,8 @@ describe('setup', () => {
 
   it('gives shooters their ammunition and everyone one retaliation', () => {
     const state = fresh()
-    expect(stack(state, 'yav:strelets').ammo).toBe(12)
+    const archer = stack(state, 'yav:strelets')
+    expect(archer.ammo).toBe(unitOf(archer).ranged!.shots)
     expect(stack(state, 'yav:kmet').ammo).toBe(0)
     expect(state.stacks.every((s) => s.retaliations === 1)).toBe(true)
   })
@@ -148,9 +160,10 @@ describe('setup', () => {
     expect(hashState(fresh(9))).toBe(hashState(fresh(9)))
   })
 
-  it('starts with the highest-initiative stack', () => {
-    // Zhar-ptitsa is not in this match; Drekavac at 12 leads Bogatyr at 11.
-    expect(fresh().activeId).toBe('nav:drekavac')
+  it('starts with the highest-initiative stack on the field', () => {
+    const state = fresh()
+    const best = Math.max(...state.stacks.map((s) => unitOf(s).stats.initiative))
+    expect(unitOf(stack(state, state.activeId!)).stats.initiative).toBe(best)
   })
 
   it('refuses a battle where either side has nothing on the field', () => {
@@ -200,7 +213,7 @@ describe('turn order', () => {
       state = expectOk(applyAction(state, { type: 'defend' }, seededRng(1)))
     }
     expect(state.round).toBe(2)
-    expect(seen.size).toBe(10)
+    expect(seen.size).toBe(fresh().stacks.length)
     expect(state.stacks.every((s) => !s.acted)).toBe(true)
     // Defending lapses when the round turns.
     expect(state.stacks.every((s) => !s.defending)).toBe(true)

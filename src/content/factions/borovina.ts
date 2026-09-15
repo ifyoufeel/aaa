@@ -21,6 +21,7 @@ export const borovina: FactionDef = {
       cyrillic: 'КИКИМОРА',
       role: 'sprite',
       cost: 14,
+      maxCount: 40,
       stats: { attack: 3, defense: 3, damage: [1, 3], hp: 8, speed: 6, initiative: 10 },
       ability: {
         id: 'skitter',
@@ -34,6 +35,7 @@ export const borovina: FactionDef = {
       cyrillic: 'БОРОВИК',
       role: 'spore-thrower',
       cost: 30,
+      maxCount: 24,
       stats: { attack: 7, defense: 5, damage: [3, 5], hp: 14, speed: 4, initiative: 8 },
       ranged: { shots: 10, meleePenalty: 0.5 },
       ability: {
@@ -48,6 +50,7 @@ export const borovina: FactionDef = {
       cyrillic: 'ВОЛК',
       role: 'wolf',
       cost: 38,
+      maxCount: 14,
       stats: { attack: 8, defense: 5, damage: [3, 6], hp: 20, speed: 9, initiative: 12 },
       ability: {
         id: 'pack',
@@ -61,6 +64,7 @@ export const borovina: FactionDef = {
       cyrillic: 'ДУБОВИК',
       role: 'oak-wight',
       cost: 85,
+      maxCount: 8,
       stats: { attack: 10, defense: 12, damage: [5, 9], hp: 48, speed: 5, initiative: 6 },
       ability: {
         id: 'bark',
@@ -74,6 +78,7 @@ export const borovina: FactionDef = {
       cyrillic: 'ЛЕШИЙ',
       role: 'forest lord',
       cost: 180,
+      maxCount: 5,
       stats: { attack: 14, defense: 11, damage: [8, 14], hp: 70, speed: 7, initiative: 9 },
       ability: {
         id: 'lead-astray',

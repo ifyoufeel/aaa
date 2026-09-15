@@ -21,13 +21,13 @@ const REALM_NOTE: Record<Realm, string> = {
 
 function unitTable(faction: FactionDef): string {
   const head =
-    '| Unit | Cost | Att | Def | Dmg | HP | Spd | Ini | Ability |\n' +
-    '| --- | --: | --: | --: | --- | --: | --: | --: | --- |'
+    '| Unit | Cost | Max | Att | Def | Dmg | HP | Spd | Ini | Ability |\n' +
+    '| --- | --: | --: | --: | --: | --- | --: | --: | --: | --- |'
   const rows = faction.units.map((u) => {
     const s = u.stats
     const shoots = u.ranged ? ` _(shoots, ${u.ranged.shots} shots)_` : ''
     return (
-      `| **${u.name}** <br><sub>${u.cyrillic} · ${u.role}</sub> | ${u.cost} | ` +
+      `| **${u.name}** <br><sub>${u.cyrillic} · ${u.role}</sub> | ${u.cost} | ${u.maxCount} | ` +
       `${s.attack} | ${s.defense} | ${s.damage[0]}–${s.damage[1]} | ${s.hp} | ` +
       `${s.speed} | ${s.initiative} | **${u.ability.name}** — ${u.ability.text}${shoots} |`
     )
@@ -84,8 +84,22 @@ ${realmSection('nav')}
   2.5% (floored at ×0.3).
 - **Dmg** is rolled per unit in the stack, so a stack of 24 Kmet rolls 24 times.
 - **HP** is per unit. A stack's pool is HP × count, and damage eats it from the top.
+- **Max** is how many of that unit one side may field. See below.
 - **Spd** is hexes per turn on the ${BOARD.cols}×${BOARD.rows} board.
 - **Ini** sets turn order within a round, highest first.
+
+## Why recruitment is capped
+
+A stack of N units deals N × damage **and** has N × health, so its effectiveness
+goes as N², and value for money goes as \`(hp × damage) / cost²\`. Measured that
+way the cheapest unit in every hall beat the dearest by roughly seven to one,
+and in simulation armies of pure chaff won about 97% of their battles. No amount
+of stat tuning fixes a quadratic.
+
+HoMM3 never had this problem because dwellings limit how many of a creature you
+can recruit — gold was never the binding constraint. The **Max** column does the
+same job here. Caps are set so a full complement of any one unit costs roughly
+40–48% of the purse, which forces every army to be at least three units wide.
 
 ## Deliberate asymmetries
 
@@ -97,6 +111,10 @@ ${realmSection('nav')}
   least one line drawn at another.
 - **Yagaya's hut is a unit,** not a battlefield feature: the most defensible stack
   in the game, and one that cannot be flanked out of a lane.
+- **Kitezh's capstone is support, not a monster.** Every other hall tops out in
+  something enormous; the Volkhv is a wardspeaker. An army built *around* it
+  loses, and is supposed to — Kitezh wants one or two of them behind a line of
+  Gridin, not five of them in a field.
 
 ## Tuning
 

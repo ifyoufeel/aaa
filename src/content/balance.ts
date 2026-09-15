@@ -35,6 +35,18 @@ export const RANGED = {
   longRangePenalty: 0.5,
 } as const
 
+/**
+ * Charge, paid per hex crossed to reach the target.
+ *
+ * The cap matters more than the rate: with no ceiling a rider crossing the
+ * whole board hit for +150%, which made cavalry the only composition worth
+ * buying in simulation.
+ */
+export const CHARGE = {
+  perHex: 0.15,
+  cap: 1.75,
+} as const
+
 /** Defending trades your action for a defence bonus until your next turn. */
 export const DEFEND_BONUS = 0.3
 
