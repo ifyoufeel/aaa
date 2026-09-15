@@ -12,24 +12,27 @@ import { ROUND_LIMIT } from '../content/balance'
 import type { Rng } from '../engine/rng'
 import type { Result } from '../engine/result'
 import { err, ok } from '../engine/result'
-import { hexDistance, hexKey, type Hex } from '../hex'
+import { hexDistance, hexKey, isAdjacent, type Hex } from '../hex'
 import { approachHex, findPath } from '../hex/board'
 import {
   canRetaliate,
+  damageIgnored,
   effectiveAttack,
   effectiveDefense,
   effectiveSpeed,
   hasAbility,
+  hasEffect,
   incomingMultipliers,
   isFlier,
   outgoingMultipliers,
+  retaliationsPerRound,
   type AttackContext,
   type AttackKind,
 } from './abilities'
-import { computeDamage } from './damage'
+import { computeDamage, type RollMode } from './damage'
 import { pendingQueue } from './queue'
-import { applyDamage, isAlive, unitOf } from './stack'
-import type { Action, BattleState, LogEntry, Stack } from './types'
+import { applyDamage, healStack, isAlive, unitOf } from './stack'
+import type { Action, BattleState, EffectKind, LogEntry, Stack } from './types'
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -77,6 +80,15 @@ function strike(
   const ctx: AttackContext = { state, attacker, defender, kind, moved }
   const unit = unitOf(attacker)
 
+  // Curse forces the floor; Misfortune rolls twice and keeps the better.
+  const roll: RollMode = hasEffect(attacker, 'cursed')
+    ? 'min'
+    : hasAbility(attacker, 'misfortune')
+      ? 'best'
+      : hasAbility(defender, 'misfortune')
+        ? 'worst'
+        : 'normal'
+
   const damage = computeDamage({
     rng,
     count: attacker.count,
@@ -84,14 +96,51 @@ function strike(
     attack: effectiveAttack(ctx),
     defense: effectiveDefense(ctx),
     multipliers: [...outgoingMultipliers(ctx), ...incomingMultipliers(ctx)],
+    ignored: damageIgnored(defender),
+    roll,
   })
 
   const outcome = applyDamage(defender, damage)
-  return {
-    state: replace(state, outcome.stack),
-    damage: outcome.dealt,
-    killed: outcome.killed,
+  let after = replace(state, outcome.stack)
+
+  // Deathless: Koshchei's court keeps its death somewhere else, once.
+  if (outcome.destroyed && hasAbility(defender, 'deathless') && !defender.revived) {
+    const third = Math.max(1, Math.ceil(defender.count / 3))
+    const unitHp = unitOf(defender).stats.hp
+    after = replace(after, {
+      ...byId(after, defender.id)!,
+      count: third,
+      topHp: unitHp,
+      revived: true,
+    })
+    after = log(after, {
+      kind: 'attack',
+      actorId: defender.id,
+      text: `${unitOf(defender).name} will not stay dead. ${third} rise again.`,
+    })
   }
+
+  // Spore Burst: what dies goes off in the faces of whoever stands near it.
+  if (outcome.killed > 0 && hasAbility(defender, 'spore-burst')) {
+    for (const bystander of after.stacks) {
+      if (bystander.side === defender.side || !isAlive(bystander)) continue
+      if (!isAdjacent(bystander.hex, defender.hex)) continue
+      const burst = applyDamage(bystander, 4 * outcome.killed)
+      after = replace(after, burst.stack)
+      if (burst.dealt > 0) {
+        after = log(after, {
+          kind: 'attack',
+          actorId: defender.id,
+          targetId: bystander.id,
+          damage: burst.dealt,
+          killed: burst.killed,
+          text: `Spores burst over ${unitOf(bystander).name} for ${burst.dealt}.`,
+        })
+      }
+    }
+  }
+
+  return { state: after, damage: outcome.dealt, killed: outcome.killed }
 }
 
 function strikeText(
@@ -109,6 +158,17 @@ function strikeText(
 }
 
 // ── turn plumbing ────────────────────────────────────────────────────────────
+
+/** Adds an effect, replacing any of the same kind rather than stacking it. */
+function withEffect(stack: Stack, kind: EffectKind, rounds: number, amount?: number): Stack {
+  return {
+    ...stack,
+    effects: [
+      ...stack.effects.filter((e) => e.kind !== kind),
+      amount === undefined ? { kind, rounds } : { kind, rounds, amount },
+    ],
+  }
+}
 
 /** Ticks one activation off every effect on a stack, dropping the lapsed ones. */
 function tickEffects(stack: Stack): Stack {
@@ -148,14 +208,44 @@ function endTurn(state: BattleState): BattleState {
     next = {
       ...next,
       round: next.round + 1,
-      stacks: next.stacks.map((s) => ({
-        ...s,
-        acted: false,
-        waited: false,
-        defending: false,
-        retaliations: hasAbility(s, 'turns-to-face') ? Number.MAX_SAFE_INTEGER : 1,
-      })),
+      stacks: next.stacks.map((s) => {
+        const stood = {
+          ...s,
+          acted: false,
+          waited: false,
+          defending: false,
+          retaliations: retaliationsPerRound(s),
+        }
+        if (!isAlive(stood)) return stood
+        // Reassemble: bones find each other again overnight.
+        if (hasAbility(stood, 'reassemble')) {
+          return healStack(stood, stood.count, stood.count)
+        }
+        return stood
+      }),
     }
+
+    // Burning is resolved after everyone has stood up, so a stack that burns
+    // to nothing does not linger in the new round's queue.
+    for (const s of next.stacks) {
+      if (!isAlive(s) || !hasEffect(s, 'burning')) continue
+      const burn = s.effects.find((e) => e.kind === 'burning')!
+      const outcome = applyDamage(s, (burn.amount ?? 0) * s.count)
+      next = replace(next, outcome.stack)
+      if (outcome.dealt > 0) {
+        next = log(next, {
+          kind: 'attack',
+          actorId: s.id,
+          damage: outcome.dealt,
+          killed: outcome.killed,
+          text: `${unitOf(s).name} burns for ${outcome.dealt}.`,
+        })
+      }
+    }
+
+    const settled = checkOutcome(next)
+    if (settled) return settled
+
     queue = pendingQueue(next)
   }
 
@@ -274,6 +364,11 @@ function applyAttack(
   const moved = path.length
   let next = replace(state, { ...active, hex: standAt, movedThisTurn: moved })
 
+  // Count the blow before it lands: Mortar strikes twice on every third.
+  const swung = byId(next, active.id)!
+  const nth = swung.attacksMade + 1
+  next = replace(next, { ...swung, attacksMade: nth })
+
   // The blow.
   const hit = strike(next, active.id, targetId, 'melee', moved, rng)
   next = log(hit.state, {
@@ -284,6 +379,62 @@ function applyAttack(
     killed: hit.killed,
     text: strikeText(byId(next, active.id)!, target, hit.damage, hit.killed, 'melee'),
   })
+
+  // Mortar and Pestle: the pestle comes down again on every third swing.
+  if (hasAbility(active, 'mortar') && nth % 3 === 0 && isAlive(byId(next, targetId)!)) {
+    const again = strike(next, active.id, targetId, 'melee', 0, rng)
+    next = log(again.state, {
+      kind: 'attack',
+      actorId: active.id,
+      targetId,
+      damage: again.damage,
+      killed: again.killed,
+      text: `The pestle comes down again for ${again.damage}.`,
+    })
+  }
+
+  // Thunderbolt: the opening stroke spreads to everything around the target.
+  if (hasAbility(active, 'thunderbolt') && nth === 1) {
+    const struck = byId(next, targetId)!
+    for (const bystander of next.stacks) {
+      if (bystander.side === active.side || bystander.id === targetId) continue
+      if (!isAlive(bystander) || !isAdjacent(bystander.hex, struck.hex)) continue
+      const arc = strike(next, active.id, bystander.id, 'shoot', 0, rng)
+      next = log(arc.state, {
+        kind: 'attack',
+        actorId: active.id,
+        targetId: bystander.id,
+        damage: arc.damage,
+        killed: arc.killed,
+        text: `Thunder rolls over ${unitOf(bystander).name} for ${arc.damage}.`,
+      })
+    }
+  }
+
+  // Chain: the bolt jumps to something else standing by the target.
+  if (hasAbility(active, 'chain')) {
+    const struck = byId(next, targetId)!
+    const neighbour = next.stacks.find(
+      (s) =>
+        s.side !== active.side &&
+        s.id !== targetId &&
+        isAlive(s) &&
+        isAdjacent(s.hex, struck.hex),
+    )
+    if (neighbour) {
+      const arc = strike(next, active.id, neighbour.id, 'shoot', 0, rng)
+      const halved = Math.floor(arc.damage / 2)
+      // strike() already applied the full amount; give half of it back.
+      const mended = healStack(byId(arc.state, neighbour.id)!, arc.damage - halved, neighbour.count)
+      next = log(replace(arc.state, mended), {
+        kind: 'attack',
+        actorId: active.id,
+        targetId: neighbour.id,
+        damage: halved,
+        text: `The bolt jumps to ${unitOf(neighbour).name} for ${halved}.`,
+      })
+    }
+  }
 
   // And the answer, if the target is still standing and still able.
   const survivor = byId(next, targetId)!
@@ -308,7 +459,31 @@ function applyAttack(
     })
   }
 
-  next = applyPostAttack(next, active.id, targetId)
+  next = applyPostAttack(next, active.id, targetId, hit.killed)
+
+  // Skitter: a kill buys another action, but only one a turn -- a chain of
+  // kills granting endless activations would let one stack clear the board.
+  const skittering = byId(next, active.id)!
+  if (
+    hasAbility(skittering, 'skitter') &&
+    hit.killed > 0 &&
+    isAlive(skittering) &&
+    !hasEffect(skittering, 'skittered')
+  ) {
+    next = replace(next, {
+      ...skittering,
+      movedThisTurn: 0,
+      effects: [...skittering.effects, { kind: 'skittered' as const, rounds: 1 }],
+    })
+    return ok(
+      log(next, {
+        kind: 'move',
+        actorId: active.id,
+        text: `${unitOf(skittering).name} scatters and comes again.`,
+      }),
+    )
+  }
+
   return ok(endTurn(next))
 }
 
@@ -338,15 +513,67 @@ function applyShoot(
     text: strikeText(active, target, hit.damage, hit.killed, 'shoot'),
   })
 
-  // A shot draws no retaliation.
+  // A shot draws no retaliation, but its rider effects still land.
+  next = applyPostAttack(next, active.id, targetId, hit.killed)
   return ok(endTurn(next))
 }
 
-/** Ability effects that resolve after a melee exchange settles. */
-function applyPostAttack(state: BattleState, attackerId: string, targetId: string): BattleState {
+/**
+ * Everything that fires once a blow has landed: debuffs the attacker hangs on
+ * its target, rewards it takes for a kill, and repositioning.
+ *
+ * Called for shots as well as melee, since several of these are not melee-only.
+ */
+function applyPostAttack(
+  state: BattleState,
+  attackerId: string,
+  targetId: string,
+  killed: number,
+): BattleState {
   const attacker = byId(state, attackerId)!
   const target = byId(state, targetId)!
   let next = state
+
+  // Gorge: a ghoul that has eaten hits harder for the rest of the battle.
+  if (hasAbility(attacker, 'gorge') && killed > 0) {
+    const fed = byId(next, attackerId)!
+    next = replace(next, { ...fed, attackBonus: fed.attackBonus + 2 * killed })
+  }
+
+  // Drain: half of what it dealt comes back, but never past its starting size.
+  if (hasAbility(attacker, 'drain')) {
+    const drained = byId(next, attackerId)!
+    const dealt = state.log.at(-1)?.damage ?? 0
+    if (dealt > 0 && isAlive(drained)) {
+      next = replace(next, healStack(drained, Math.floor(dealt / 2), drained.count))
+    }
+  }
+
+  if (isAlive(byId(next, targetId)!)) {
+    const hit = byId(next, targetId)!
+    // Sunder: armour opened up until the target's next turn.
+    if (hasAbility(attacker, 'sunder')) next = replace(next, withEffect(hit, 'sundered', 1, 3))
+    // Keening: it loses its place in the order.
+    if (hasAbility(attacker, 'keening')) {
+      next = replace(next, withEffect(byId(next, targetId)!, 'deafened', 1, 2))
+    }
+    // Nightmare: it strikes softer for having seen what it saw.
+    if (hasAbility(attacker, 'nightmare')) {
+      next = replace(next, withEffect(byId(next, targetId)!, 'cowed', 1, 0.1))
+    }
+    // Curse: its next blow lands at the floor.
+    if (hasAbility(attacker, 'curse')) {
+      next = replace(next, withEffect(byId(next, targetId)!, 'cursed', 1))
+    }
+    // Lead Astray: the wood folds up in front of it.
+    if (hasAbility(attacker, 'lead-astray')) {
+      next = replace(next, withEffect(byId(next, targetId)!, 'lost', 1))
+    }
+    // Flight: the firebird leaves it alight.
+    if (hasAbility(attacker, 'flight')) {
+      next = replace(next, withEffect(byId(next, targetId)!, 'burning', 2, 3))
+    }
+  }
 
   // Drag Under: the two change places.
   //

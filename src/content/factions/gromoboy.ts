@@ -84,7 +84,7 @@ export const gromoboy: FactionDef = {
       ability: {
         id: 'thunderbolt',
         name: 'Thunderbolt',
-        text: 'Once a battle, strike any hex on the field for 40 to 70.',
+        text: 'Its first blow of the battle also lands on everything beside the target.',
       },
     },
   ],

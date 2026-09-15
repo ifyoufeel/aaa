@@ -14,11 +14,27 @@ export type Side = Realm
 export type EffectKind =
   /** Beckon: a hex less of movement. */
   | 'slowed'
+  /** Lead Astray: movement halved. */
+  | 'lost'
+  /** Sunder: defence reduced by `amount`. */
+  | 'sundered'
+  /** Keening: initiative reduced by `amount`. */
+  | 'deafened'
+  /** Nightmare: deals `amount` less of its damage, as a fraction. */
+  | 'cowed'
+  /** Curse: its next attack rolls minimum damage. */
+  | 'cursed'
+  /** Flight: losing `amount` health at the start of each of its turns. */
+  | 'burning'
+  /** Skitter: has already taken its bonus action this turn. */
+  | 'skittered'
 
 export interface StatusEffect {
   readonly kind: EffectKind
   /** Activations of this stack remaining before it lapses. */
   readonly rounds: number
+  /** Size of the effect, where the kind takes one. */
+  readonly amount?: number
 }
 
 /** A stack of one unit type, standing on one hex. */
@@ -50,6 +66,15 @@ export interface Stack {
   readonly movedThisTurn: number
   /** Temporary conditions, ticked at the start of this stack's turn. */
   readonly effects: readonly StatusEffect[]
+  /**
+   * Attack earned permanently during the battle, as Gorge does. Kept apart
+   * from `effects` because it never lapses.
+   */
+  readonly attackBonus: number
+  /** Attacks made, for abilities that fire on a count (Mortar and Pestle). */
+  readonly attacksMade: number
+  /** Set once a Deathless stack has spent its one return. */
+  readonly revived: boolean
 }
 
 export type ActionType = 'move' | 'attack' | 'shoot' | 'wait' | 'defend'

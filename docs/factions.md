@@ -57,7 +57,7 @@ Perun's thunder-host, down off the ridge for one afternoon only. Strikes first, 
 | **Alkonost** <br><sub>АЛКОНОСТ · bird-maiden</sub> | 45 | 24 | 9 | 4 | 4–7 | 16 | 6 | 12 | **Keening** — The stack it hits loses 2 Initiative until its next turn. _(shoots, 8 shots)_ |
 | **Gromovik** <br><sub>ГРОМОВИК · storm-smith</sub> | 60 | 14 | 11 | 6 | 5–8 | 26 | 6 | 11 | **Chain** — Also strikes one other enemy adjacent to the target, for half. |
 | **Zhar-ptitsa** <br><sub>ЖАР-ПТИЦА · firebird</sub> | 120 | 8 | 13 | 8 | 7–12 | 38 | 10 | 14 | **Flight** — Moves over occupied hexes, and leaves the target burning for 3 a round. |
-| **Molnienosets** <br><sub>МОЛНИЕНОСЕЦ · thunderbearer</sub> | 200 | 5 | 16 | 10 | 10–18 | 60 | 8 | 13 | **Thunderbolt** — Once a battle, strike any hex on the field for 40 to 70. |
+| **Molnienosets** <br><sub>МОЛНИЕНОСЕЦ · thunderbearer</sub> | 200 | 5 | 16 | 10 | 10–18 | 60 | 8 | 13 | **Thunderbolt** — Its first blow of the battle also lands on everything beside the target. |
 
 <sub>One of each costs **445 g** of the 1500 g budget · 1 shooter</sub>
 

@@ -6,6 +6,7 @@ export {
   effectiveSpeed,
   factionReadiness,
   hasAbility,
+  retaliationsForAbility,
   isFlier,
 } from './abilities'
 export { attackModifier, computeDamage, damageRange, rollBaseDamage } from './damage'

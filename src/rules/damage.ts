@@ -42,6 +42,14 @@ export function rollBaseDamage(
   return Math.floor((total * count) / rolls)
 }
 
+/**
+ * How the dice fall.
+ *
+ * `min` is Curse; `best` and `worst` are the two halves of Misfortune, which
+ * rolls twice and keeps the luckier result for its owner.
+ */
+export type RollMode = 'normal' | 'min' | 'best' | 'worst'
+
 export interface DamageInput {
   readonly rng: Rng
   readonly count: number
@@ -50,13 +58,34 @@ export interface DamageInput {
   readonly defense: number
   /** Everything else: charge bonus, shield wall, ward, range penalty, ... */
   readonly multipliers?: readonly number[]
+  /** Flat reduction applied per hit before multipliers, as Bark does. */
+  readonly ignored?: number
+  readonly roll?: RollMode
+}
+
+function rollWith(input: DamageInput): number {
+  const [min, max] = input.damage
+  switch (input.roll ?? 'normal') {
+    case 'min':
+      return min * input.count
+    case 'best':
+    case 'worst': {
+      const a = rollBaseDamage(input.rng, input.count, min, max)
+      const b = rollBaseDamage(input.rng, input.count, min, max)
+      return input.roll === 'best' ? Math.max(a, b) : Math.min(a, b)
+    }
+    default:
+      return rollBaseDamage(input.rng, input.count, min, max)
+  }
 }
 
 export function computeDamage(input: DamageInput): number {
-  const base = rollBaseDamage(input.rng, input.count, input.damage[0], input.damage[1])
+  const base = rollWith(input)
   const modifier = attackModifier(input.attack, input.defense)
   const extra = (input.multipliers ?? []).reduce((acc, m) => acc * m, 1)
-  return Math.max(0, Math.floor(base * modifier * extra))
+  // Bark eats the first points of the blow before anything scales it.
+  const after = Math.max(0, base - (input.ignored ?? 0))
+  return Math.max(0, Math.floor(after * modifier * extra))
 }
 
 /**

@@ -9,6 +9,7 @@
 import { BOARD, GOLD_BUDGET } from '../content/balance'
 import { getFaction } from '../content/factions'
 import { offsetToAxial } from '../hex'
+import { retaliationsForAbility } from './abilities'
 import type { ArmyOrder, BattleState, Stack } from './types'
 
 /** Column each side deploys on. */
@@ -57,12 +58,15 @@ function buildStacks(order: ArmyOrder): Stack[] {
     topHp: unit.stats.hp,
     hex: offsetToAxial({ col: DEPLOY_COL[order.side], row: rows[i]! }),
     ammo: unit.ranged?.shots ?? 0,
-    retaliations: 1,
+    retaliations: retaliationsForAbility(unit.ability.id),
     defending: false,
     waited: false,
     acted: false,
     movedThisTurn: 0,
     effects: [],
+    attackBonus: 0,
+    attacksMade: 0,
+    revived: false,
   }))
 }
 
