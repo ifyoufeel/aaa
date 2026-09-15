@@ -35,3 +35,7 @@ dist-ssr
 
 # Vercel
 .vercel
+
+# Design canvas: 2.5 MB of packaged editor, re-seeded from design/*.dc.html
+design/nav-and-yav-screens.html
+design/__pycache__/

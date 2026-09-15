@@ -1,0 +1,276 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #c9a227; } a:hover { color: #e6c14a; }
+    .rc * { box-sizing: border-box; }
+    .rc {
+      width: 1440px; height: 900px; position: relative; overflow: hidden;
+      background: radial-gradient(ellipse 95% 70% at 38% 8%, #171c15 0%, #0d100e 62%);
+      font-family: Spectral, 'Iowan Old Style', Georgia, serif;
+      color: #e9e1ce; font-size: 14px;
+      display: flex; flex-direction: column;
+    }
+    .rc__grain {
+      position: absolute; inset: 0; pointer-events: none; opacity: 0.045; z-index: 9;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+    .display { font-family: Forum, 'Trajan Pro', Palatino, serif; font-weight: 400; }
+    .tnum { font-variant-numeric: tabular-nums; }
+    .stat { display: flex; flex-direction: column; gap: 2px; min-width: 50px; }
+    .stat b { font-weight: 500; font-size: 17px; color: #e0d8c4; font-variant-numeric: tabular-nums; line-height: 1; }
+    .stat span { font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #6d7468; }
+    .step {
+      width: 30px; height: 30px; display: grid; place-items: center;
+      border: 1px solid #38423a; background: #171c18; color: #c2bba8;
+      font-size: 16px; line-height: 1; cursor: pointer;
+    }
+    .step:hover { border-color: #c9a227; color: #e6c14a; }
+    .plaque {
+      flex: 0 0 auto; width: 76px; height: 90px; display: grid; place-items: center;
+      background: #0e1210; clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);
+    }
+  </style>
+</helmet>
+
+<div class="rc">
+
+  <header style="position: relative; z-index: 3; flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px 44px 20px; border-bottom: 1px solid #262e28;">
+    <div style="display: flex; align-items: center; gap: 18px;">
+      <div class="plaque" style="width: 54px; height: 64px;">
+        <svg width="33" height="37" viewBox="0 0 46 52" fill="#a24d33" color="#a24d33" style="margin-bottom: 6px;" aria-hidden="true"><path d="M6.3 0c2 3.4 2.7 5.2 2.7 7.2s-1 3.2-2.7 4.3c-1.7-1.1-2.7-2.3-2.7-4.3S4.3 3.4 6.3 0z"/><rect x="5" y="10" width="2.6" height="42"/><path d="M22 6c4.6 0 7.6 3 7.6 7.6V17H14.4v-3.4C14.4 9 17.4 6 22 6z"/><path d="M13 19h18l2.4 14H10.6z"/><rect x="15" y="35" width="5.4" height="16"/><rect x="23.6" y="35" width="5.4" height="16"/><ellipse cx="35" cy="28" rx="6" ry="9.5"/></svg>
+      </div>
+      <div>
+        <h1 class="display" style="margin: 0; font-size: 31px; letter-spacing: 0.06em;">Kitezh</h1>
+        <p style="margin: 2px 0 0; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: #6d7468;">
+          Муштра &middot; Muster the druzhina
+        </p>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 34px;">
+      <div style="text-align: right;">
+        <p style="margin: 0; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: #6d7468;">Spent</p>
+        <p class="tnum" style="margin: 2px 0 0; font-family: Forum, Palatino, serif; font-size: 25px; color: #9aa090;">1,430</p>
+      </div>
+      <div style="width: 1px; height: 40px; background: #262e28;"></div>
+      <div style="text-align: right;">
+        <p style="margin: 0; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: #6d7468;">Gold left</p>
+        <p class="tnum" style="margin: 2px 0 0; font-family: Forum, Palatino, serif; font-size: 36px; color: #e6c14a; line-height: 1;">70</p>
+      </div>
+    </div>
+  </header>
+
+  <div style="position: relative; z-index: 3; flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 356px; gap: 30px; padding: 20px 44px 26px;">
+
+    <section style="display: flex; flex-direction: column; gap: 11px; min-height: 0;">
+      <article style="flex: 1 1 0; display: flex; align-items: center; gap: 20px; padding: 16px 20px; background: #141916; border: 1px solid #2a3129; border-left: 3px solid #a24d33; ">
+        <div class="plaque">
+          <svg width="46" height="52" viewBox="0 0 46 52" fill="#a24d33" color="#a24d33" style="margin-bottom: 8px;" aria-hidden="true"><path d="M6.3 0c2 3.4 2.7 5.2 2.7 7.2s-1 3.2-2.7 4.3c-1.7-1.1-2.7-2.3-2.7-4.3S4.3 3.4 6.3 0z"/><rect x="5" y="10" width="2.6" height="42"/><path d="M22 6c4.6 0 7.6 3 7.6 7.6V17H14.4v-3.4C14.4 9 17.4 6 22 6z"/><path d="M13 19h18l2.4 14H10.6z"/><rect x="15" y="35" width="5.4" height="16"/><rect x="23.6" y="35" width="5.4" height="16"/><ellipse cx="35" cy="28" rx="6" ry="9.5"/></svg>
+        </div>
+        <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: baseline; gap: 11px;">
+            <h3 class="display" style="margin: 0; font-size: 22px; letter-spacing: 0.04em;">Kmet</h3>
+            <span style="font-size: 11.5px; letter-spacing: 0.16em; color: #6d7468;">КМЕТЬ &middot; spearman</span>
+          </div>
+          <div style="display: flex; gap: 22px;">
+            <div class="stat"><b>4</b><span>Att</span></div><div class="stat"><b>5</b><span>Def</span></div><div class="stat"><b>1&ndash;3</b><span>Dmg</span></div><div class="stat"><b>10</b><span>HP</span></div><div class="stat"><b>4</b><span>Spd</span></div><div class="stat"><b>8</b><span>Ini</span></div>
+          </div>
+          <p style="margin: 0; font-size: 13px; color: #8f9789;">
+            <span style="color: #c2a98f;">Pike Wall</span> &mdash; +2 Def against a rider that charged in.
+          </p>
+        </div>
+        <div style="flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+          <p class="tnum" style="margin: 0; font-size: 12px; color: #6d7468;">15 g each</p>
+          <div style="display: flex; align-items: center; gap: 9px;">
+            <div class="step">&minus;</div>
+            <span class="tnum" style="min-width: 38px; text-align: center; font-size: 21px; color: #e9e1ce;">24</span>
+            <div class="step" style="">+</div>
+          </div>
+          <p class="tnum" style="margin: 0; font-size: 14px; color: #c9a227;">360 g</p>
+        </div>
+      </article>
+      <article style="flex: 1 1 0; display: flex; align-items: center; gap: 20px; padding: 16px 20px; background: #141916; border: 1px solid #2a3129; border-left: 3px solid #a24d33; ">
+        <div class="plaque">
+          <svg width="46" height="52" viewBox="0 0 46 52" fill="#a24d33" color="#a24d33" style="margin-bottom: 8px;" aria-hidden="true"><path d="M33 2c11 10 11 34 0 44l-4-3c9-9 9-29 0-38z"/><path d="M31 5L22 24l9 19" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="16" r="6"/><path d="M5 24h14l3 15-5 2-1 11h-4l-1-11-5-2z"/></svg>
+        </div>
+        <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: baseline; gap: 11px;">
+            <h3 class="display" style="margin: 0; font-size: 22px; letter-spacing: 0.04em;">Strelets</h3>
+            <span style="font-size: 11.5px; letter-spacing: 0.16em; color: #6d7468;">СТРЕЛЕЦ &middot; archer</span>
+          </div>
+          <div style="display: flex; gap: 22px;">
+            <div class="stat"><b>6</b><span>Att</span></div><div class="stat"><b>3</b><span>Def</span></div><div class="stat"><b>2&ndash;4</b><span>Dmg</span></div><div class="stat"><b>9</b><span>HP</span></div><div class="stat"><b>4</b><span>Spd</span></div><div class="stat"><b>9</b><span>Ini</span></div>
+          </div>
+          <p style="margin: 0; font-size: 13px; color: #8f9789;">
+            <span style="color: #c2a98f;">Shooter</span> &mdash; 12 shots. Halves its damage in melee.
+          </p>
+        </div>
+        <div style="flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+          <p class="tnum" style="margin: 0; font-size: 12px; color: #6d7468;">25 g each</p>
+          <div style="display: flex; align-items: center; gap: 9px;">
+            <div class="step">&minus;</div>
+            <span class="tnum" style="min-width: 38px; text-align: center; font-size: 21px; color: #e9e1ce;">12</span>
+            <div class="step" style="">+</div>
+          </div>
+          <p class="tnum" style="margin: 0; font-size: 14px; color: #c9a227;">300 g</p>
+        </div>
+      </article>
+      <article style="flex: 1 1 0; display: flex; align-items: center; gap: 20px; padding: 16px 20px; background: #141916; border: 1px solid #2a3129; border-left: 3px solid #a24d33; ">
+        <div class="plaque">
+          <svg width="46" height="52" viewBox="0 0 46 52" fill="#a24d33" color="#a24d33" style="margin-bottom: 8px;" aria-hidden="true"><circle cx="23" cy="5" r="5.5"/><path d="M5 9h36v25L23 50 5 34z"/><path d="M23 15v26M13 22h20" stroke="#0b0f0e" stroke-width="2" fill="none"/></svg>
+        </div>
+        <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: baseline; gap: 11px;">
+            <h3 class="display" style="margin: 0; font-size: 22px; letter-spacing: 0.04em;">Gridin</h3>
+            <span style="font-size: 11.5px; letter-spacing: 0.16em; color: #6d7468;">ГРИДЕНЬ &middot; guard</span>
+          </div>
+          <div style="display: flex; gap: 22px;">
+            <div class="stat"><b>8</b><span>Att</span></div><div class="stat"><b>9</b><span>Def</span></div><div class="stat"><b>3&ndash;6</b><span>Dmg</span></div><div class="stat"><b>22</b><span>HP</span></div><div class="stat"><b>4</b><span>Spd</span></div><div class="stat"><b>7</b><span>Ini</span></div>
+          </div>
+          <p style="margin: 0; font-size: 13px; color: #8f9789;">
+            <span style="color: #c2a98f;">Shield Wall</span> &mdash; Halves damage taken from shooters.
+          </p>
+        </div>
+        <div style="flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+          <p class="tnum" style="margin: 0; font-size: 12px; color: #6d7468;">45 g each</p>
+          <div style="display: flex; align-items: center; gap: 9px;">
+            <div class="step">&minus;</div>
+            <span class="tnum" style="min-width: 38px; text-align: center; font-size: 21px; color: #e9e1ce;">6</span>
+            <div class="step" style="">+</div>
+          </div>
+          <p class="tnum" style="margin: 0; font-size: 14px; color: #c9a227;">270 g</p>
+        </div>
+      </article>
+      <article style="flex: 1 1 0; display: flex; align-items: center; gap: 20px; padding: 16px 20px; background: #141916; border: 1px solid #2a3129; border-left: 3px solid #a24d33; ">
+        <div class="plaque">
+          <svg width="46" height="52" viewBox="0 0 46 52" fill="#a24d33" color="#a24d33" style="margin-bottom: 8px;" aria-hidden="true"><path d="M3 44V29c0-7 6-12 13-12h15l7-9 4 3-4 8c3 3 5 7 5 12v13h-5V33h-6v11h-5V33H15v11z"/><circle cx="27" cy="5" r="4.5"/><path d="M22 10h9l3 8H19z"/></svg>
+        </div>
+        <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: baseline; gap: 11px;">
+            <h3 class="display" style="margin: 0; font-size: 22px; letter-spacing: 0.04em;">Bogatyr</h3>
+            <span style="font-size: 11.5px; letter-spacing: 0.16em; color: #6d7468;">БОГАТЫРЬ &middot; champion</span>
+          </div>
+          <div style="display: flex; gap: 22px;">
+            <div class="stat"><b>12</b><span>Att</span></div><div class="stat"><b>10</b><span>Def</span></div><div class="stat"><b>6&ndash;10</b><span>Dmg</span></div><div class="stat"><b>40</b><span>HP</span></div><div class="stat"><b>8</b><span>Spd</span></div><div class="stat"><b>11</b><span>Ini</span></div>
+          </div>
+          <p style="margin: 0; font-size: 13px; color: #8f9789;">
+            <span style="color: #c2a98f;">Charge</span> &mdash; +25% damage for every hex crossed to reach the target.
+          </p>
+        </div>
+        <div style="flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+          <p class="tnum" style="margin: 0; font-size: 12px; color: #6d7468;">90 g each</p>
+          <div style="display: flex; align-items: center; gap: 9px;">
+            <div class="step">&minus;</div>
+            <span class="tnum" style="min-width: 38px; text-align: center; font-size: 21px; color: #e9e1ce;">4</span>
+            <div class="step" style="opacity: 0.3; border-color: #2a3129;">+</div>
+          </div>
+          <p class="tnum" style="margin: 0; font-size: 14px; color: #c9a227;">360 g</p><p class="tnum" style="margin: -4px 0 0; font-size: 11px; color: #6d7468;">20 g short of another</p>
+        </div>
+      </article>
+      <article style="flex: 1 1 0; display: flex; align-items: center; gap: 20px; padding: 16px 20px; background: #141916; border: 1px solid #2a3129; border-left: 3px solid #a24d33; ">
+        <div class="plaque">
+          <svg width="46" height="52" viewBox="0 0 46 52" fill="#a24d33" color="#a24d33" style="margin-bottom: 8px;" aria-hidden="true"><circle cx="21" cy="9" r="7"/><path d="M12 19h18l8 33H4z"/><rect x="39" y="6" width="3" height="46"/><circle cx="40.5" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
+        </div>
+        <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: baseline; gap: 11px;">
+            <h3 class="display" style="margin: 0; font-size: 22px; letter-spacing: 0.04em;">Volkhv</h3>
+            <span style="font-size: 11.5px; letter-spacing: 0.16em; color: #6d7468;">ВОЛХВ &middot; wardspeaker</span>
+          </div>
+          <div style="display: flex; gap: 22px;">
+            <div class="stat"><b>10</b><span>Att</span></div><div class="stat"><b>8</b><span>Def</span></div><div class="stat"><b>5&ndash;9</b><span>Dmg</span></div><div class="stat"><b>35</b><span>HP</span></div><div class="stat"><b>5</b><span>Spd</span></div><div class="stat"><b>10</b><span>Ini</span></div>
+          </div>
+          <p style="margin: 0; font-size: 13px; color: #8f9789;">
+            <span style="color: #c2a98f;">Ward</span> &mdash; Neighbouring friendly stacks take 15% less damage.
+          </p>
+        </div>
+        <div style="flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+          <p class="tnum" style="margin: 0; font-size: 12px; color: #6d7468;">140 g each</p>
+          <div style="display: flex; align-items: center; gap: 9px;">
+            <div class="step">&minus;</div>
+            <span class="tnum" style="min-width: 38px; text-align: center; font-size: 21px; color: #e9e1ce;">1</span>
+            <div class="step" style="opacity: 0.3; border-color: #2a3129;">+</div>
+          </div>
+          <p class="tnum" style="margin: 0; font-size: 14px; color: #c9a227;">140 g</p><p class="tnum" style="margin: -4px 0 0; font-size: 11px; color: #6d7468;">70 g short of another</p>
+        </div>
+      </article>
+    </section>
+
+    <aside style="display: flex; flex-direction: column; gap: 14px; min-height: 0;">
+      <div style="background: #12170f; border: 1px solid #2a3129; padding: 20px;">
+        <h2 class="display" style="margin: 0 0 3px; font-size: 17px; letter-spacing: 0.16em; text-transform: uppercase; color: #cfc5ad;">Your army</h2>
+        <p style="margin: 0 0 15px; font-size: 11px; letter-spacing: 0.1em; color: #6d7468;">Five stacks &middot; 47 souls</p>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+            <span style="font-size: 14px; color: #cfc8b6;">Kmet <span class="tnum" style="color: #7d8478;">&times;24</span></span>
+            <span class="tnum" style="font-size: 13px; color: #8f9789;">360</span>
+          </div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+            <span style="font-size: 14px; color: #cfc8b6;">Strelets <span class="tnum" style="color: #7d8478;">&times;12</span></span>
+            <span class="tnum" style="font-size: 13px; color: #8f9789;">300</span>
+          </div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+            <span style="font-size: 14px; color: #cfc8b6;">Gridin <span class="tnum" style="color: #7d8478;">&times;6</span></span>
+            <span class="tnum" style="font-size: 13px; color: #8f9789;">270</span>
+          </div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+            <span style="font-size: 14px; color: #cfc8b6;">Bogatyr <span class="tnum" style="color: #7d8478;">&times;4</span></span>
+            <span class="tnum" style="font-size: 13px; color: #8f9789;">360</span>
+          </div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+            <span style="font-size: 14px; color: #cfc8b6;">Volkhv <span class="tnum" style="color: #7d8478;">&times;1</span></span>
+            <span class="tnum" style="font-size: 13px; color: #8f9789;">140</span>
+          </div>
+        </div>
+        <div style="height: 1px; background: #2a3129; margin: 16px 0 14px;"></div>
+        <div style="display: flex; align-items: baseline; justify-content: space-between;">
+          <span style="font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #6d7468;">Remaining</span>
+          <span class="tnum" style="font-family: Forum, Palatino, serif; font-size: 23px; color: #e6c14a;">70 g</span>
+        </div>
+      </div>
+
+      <!-- What the gold actually bought. With no hero to lean on, the shape of
+           the army IS the plan, so it gets stated rather than left to arithmetic. -->
+      <div style="background: #12170f; border: 1px solid #2a3129; padding: 18px 20px;">
+        <h2 class="display" style="margin: 0 0 13px; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: #8f9789;">Shape of it</h2>
+        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+          <div style="display: flex; justify-content: space-between;"><span style="color: #7d8478;">Health pool</span><span class="tnum" style="color: #cfc8b6;">675</span></div>
+          <div style="display: flex; justify-content: space-between;"><span style="color: #7d8478;">Gold in shooters</span><span class="tnum" style="color: #cfc8b6;">31%</span></div>
+          <div style="display: flex; justify-content: space-between;"><span style="color: #7d8478;">Slowest stack</span><span class="tnum" style="color: #cfc8b6;">4 hexes</span></div>
+        </div>
+        <p style="margin: 13px 0 0; font-size: 12px; line-height: 1.5; color: #5f6a5f; text-wrap: pretty;">
+          Slow and thick. Topyla will try to outrange you &mdash; close the distance early.
+        </p>
+      </div>
+
+      <button style="padding: 16px; font-family: Forum, Palatino, serif; font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase; color: #120f06; background: linear-gradient(180deg, #e6c14a 0%, #c9a227 100%); border: 1px solid #f0d878; cursor: pointer; box-shadow: 0 10px 26px -12px rgba(201,162,39,0.55);">
+        Take the field
+      </button>
+
+      <div style="margin-top: auto; background: #0f1416; border: 1px solid #242c2e; padding: 15px 18px;">
+        <div style="display: flex; align-items: center; gap: 9px;">
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: #3d7a76; box-shadow: 0 0 9px #3d7a76;"></span>
+          <span style="font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #7fa5a3;">Topyla is recruiting</span>
+        </div>
+        <p style="margin: 10px 0 0; font-size: 12.5px; line-height: 1.5; color: #6d7468; text-wrap: pretty;">
+          You will not see what they bought until the first stack moves.
+        </p>
+      </div>
+    </aside>
+  </div>
+
+  <div class="rc__grain"></div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

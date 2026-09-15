@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #c9a227; } a:hover { color: #e6c14a; }
+    .bt * { box-sizing: border-box; }
+    .bt {
+      width: 1440px; height: 940px; position: relative; overflow: hidden;
+      background: #090b0a;
+      font-family: Spectral, 'Iowan Old Style', Georgia, serif;
+      color: #e9e1ce; font-size: 14px;
+      display: flex; flex-direction: column;
+    }
+    .bt__grain {
+      position: absolute; inset: 0; pointer-events: none; opacity: 0.05; z-index: 9;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+    .display { font-family: Forum, 'Trajan Pro', Palatino, serif; font-weight: 400; }
+    .tnum { font-variant-numeric: tabular-nums; }
+    .act {
+      padding: 11px 20px; font-family: Forum, Palatino, serif; font-size: 13px;
+      letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer;
+      background: #161c17; border: 1px solid #38423a; color: #cfc8b6;
+    }
+    .act:hover { border-color: #c9a227; color: #e6c14a; }
+  </style>
+</helmet>
+
+<div class="bt">
+
+  <!-- ── Turn queue ─────────────────────────────────────────── -->
+  <header style="position: relative; z-index: 3; flex: 0 0 auto; display: flex; align-items: center; gap: 28px; padding: 14px 34px; background: linear-gradient(180deg, #11150f 0%, #0c0f0d 100%); border-bottom: 1px solid #262e28;">
+    <div style="flex: 0 0 auto;">
+      <p style="margin: 0; font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: #6d7468;">Round</p>
+      <p class="display tnum" style="margin: 0; font-size: 30px; line-height: 1; color: #e6c14a;">3</p>
+    </div>
+    <div style="width: 1px; align-self: stretch; background: #262e28;"></div>
+    <div style="flex: 1 1 auto; min-width: 0;">
+      <p style="margin: 0 0 7px; font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: #6d7468;">Order of battle</p>
+      <div style="display: flex; align-items: flex-end; gap: 9px;">
+        <!--QUEUE-->
+      </div>
+    </div>
+    <div style="flex: 0 0 auto; display: flex; align-items: center; gap: 10px;">
+      <span style="width: 7px; height: 7px; border-radius: 50%; background: #5f9e99; box-shadow: 0 0 9px #3d7a76;"></span>
+      <span style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #7fa5a3;">Topyla connected</span>
+    </div>
+  </header>
+
+  <!-- ── Battlefield ────────────────────────────────────────── -->
+  <div style="position: relative; z-index: 2; flex: 1 1 auto; display: grid; place-items: center; padding: 8px 0;">
+    <!-- Side banners, so you always know which edge is yours -->
+    <div style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl; font-family: Forum, Palatino, serif; font-size: 17px; letter-spacing: 0.4em; text-transform: uppercase; color: #a24d33; opacity: 0.75;">
+      Kitezh &middot; you
+    </div>
+    <div style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; font-family: Forum, Palatino, serif; font-size: 17px; letter-spacing: 0.4em; text-transform: uppercase; color: #3d7a76; opacity: 0.75;">
+      Topyla
+    </div>
+
+    <div style="position: relative;">
+      <!--BATTLEFIELD-->
+
+      <!-- Attack preview, pinned by the target. HoMM3's readability came from
+           telling you the outcome before you committed to it. -->
+      <div style="position: absolute; right: 6px; top: 430px; width: 216px; padding: 12px 14px; background: rgba(11,15,14,0.95); border: 1px solid #5c2a20; box-shadow: 0 16px 34px -16px rgba(0,0,0,0.95);">
+        <p style="margin: 0 0 8px; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #b8412f;">If you charge</p>
+        <p class="tnum" style="margin: 0; font-family: Forum, Palatino, serif; font-size: 25px; line-height: 1; color: #e9e1ce;">168&ndash;280</p>
+        <p style="margin: 3px 0 10px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #6d7468;">damage &middot; 6 hexes charged</p>
+        <div style="display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; color: #9aa090;">
+          <div style="display: flex; justify-content: space-between;"><span>Kills</span><span class="tnum" style="color: #cfc8b6;">3&ndash;5 of 5</span></div>
+          <div style="display: flex; justify-content: space-between;"><span>Retaliation</span><span style="color: #b8412f;">yes, 1 left</span></div>
+          <div style="display: flex; justify-content: space-between;"><span>You take back</span><span class="tnum" style="color: #cfc8b6;">22&ndash;40</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Bottom bar ─────────────────────────────────────────── -->
+  <footer style="position: relative; z-index: 3; flex: 0 0 auto; display: grid; grid-template-columns: 340px minmax(0, 1fr) 300px; gap: 0; background: linear-gradient(180deg, #0c0f0d 0%, #11150f 100%); border-top: 1px solid #262e28;">
+
+    <!-- Combat log -->
+    <section style="padding: 14px 20px 16px 34px; border-right: 1px solid #1d241e;">
+      <p style="margin: 0 0 8px; font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: #6d7468;">Field record</p>
+      <div style="display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; line-height: 1.45;">
+        <p style="margin: 0; color: #5f6a5f;">Mavka closes on Gridin. 14 strike, 3 fall to the wall.</p>
+        <p style="margin: 0; color: #6d7468;">Strelets looses into the mire. <span style="color: #a24d33;">Bolotnik loses 2.</span></p>
+        <p style="margin: 0; color: #8f9789;">Rusalka sings. <span style="color: #3d7a76;">Kmet stands off a round.</span></p>
+        <p style="margin: 0; color: #b3ad9c;">Volkhv sets a ward over the centre.</p>
+      </div>
+    </section>
+
+    <!-- Active stack -->
+    <section style="padding: 14px 24px 16px; display: flex; align-items: center; gap: 22px; border-right: 1px solid #1d241e;">
+      <div style="flex: 0 0 auto; width: 62px; height: 72px; display: grid; place-items: center; background: #0b0f0e; border: 2px solid #e6c14a; clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);">
+        <svg width="40" height="34" viewBox="0 0 52 46" fill="#a24d33" style="margin-bottom: 8px;" aria-hidden="true">
+          <path d="M4 34c2-9 8-13 16-13h14l6-5 3 4-4 4c2 6 1 11-3 14l-2 6h-4l1-5H14l-1 5H9l1-5c-3-1-5-3-6-5z"/>
+          <circle cx="25" cy="7" r="4.5"/><path d="M20 12h9l2 8H18z"/>
+        </svg>
+      </div>
+      <div style="flex: 1 1 auto; min-width: 0;">
+        <div style="display: flex; align-items: baseline; gap: 11px;">
+          <h2 class="display" style="margin: 0; font-size: 22px; letter-spacing: 0.05em;">Bogatyr</h2>
+          <span class="tnum" style="font-size: 15px; color: #e6c14a;">&times;4</span>
+          <span style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #6d7468;">your move</span>
+        </div>
+        <div style="display: flex; gap: 20px; margin-top: 9px;">
+          <div style="display: flex; flex-direction: column; gap: 1px;"><b class="tnum" style="font-weight: 500; font-size: 15px;">12</b><span style="font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: #6d7468;">Att</span></div>
+          <div style="display: flex; flex-direction: column; gap: 1px;"><b class="tnum" style="font-weight: 500; font-size: 15px;">10</b><span style="font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: #6d7468;">Def</span></div>
+          <div style="display: flex; flex-direction: column; gap: 1px;"><b class="tnum" style="font-weight: 500; font-size: 15px;">6&ndash;10</b><span style="font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: #6d7468;">Dmg</span></div>
+          <div style="display: flex; flex-direction: column; gap: 1px;"><b class="tnum" style="font-weight: 500; font-size: 15px;">142<span style="color: #6d7468;">/160</span></b><span style="font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: #6d7468;">HP</span></div>
+          <div style="display: flex; flex-direction: column; gap: 1px;"><b class="tnum" style="font-weight: 500; font-size: 15px;">8</b><span style="font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: #6d7468;">Spd</span></div>
+        </div>
+        <p style="margin: 9px 0 0; font-size: 12.5px; color: #8f9789;">
+          <span style="color: #c2a98f;">Charge</span> &mdash; +25% damage for every hex crossed to reach the target.
+        </p>
+      </div>
+    </section>
+
+    <!-- Actions -->
+    <section style="padding: 14px 34px 16px 24px; display: flex; flex-direction: column; justify-content: center; gap: 9px;">
+      <div style="display: flex; gap: 9px;">
+        <div class="act" style="flex: 1 1 0;">Wait</div>
+        <div class="act" style="flex: 1 1 0;">Defend</div>
+      </div>
+      <div style="padding: 13px 20px; text-align: center; font-family: Forum, Palatino, serif; font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: #120f06; background: linear-gradient(180deg, #e6c14a 0%, #c9a227 100%); border: 1px solid #f0d878; cursor: pointer; box-shadow: 0 10px 24px -12px rgba(201,162,39,0.55);">
+        Charge Bolotnik
+      </div>
+      <p style="margin: 2px 0 0; text-align: center; font-size: 11px; letter-spacing: 0.08em; color: #5f6a5f;">
+        Or click any lit hex to move there.
+      </p>
+    </section>
+  </footer>
+
+  <div class="bt__grain"></div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":940}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

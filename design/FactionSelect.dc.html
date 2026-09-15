@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #c9a227; } a:hover { color: #e6c14a; }
+    .fs * { box-sizing: border-box; }
+    .fs {
+      width: 1440px; height: 900px; position: relative; overflow: hidden;
+      background: #0d100e;
+      font-family: Spectral, 'Iowan Old Style', Georgia, serif;
+      color: #e9e1ce; font-size: 14px;
+    }
+    .fs__grain {
+      position: absolute; inset: 0; pointer-events: none; opacity: 0.045; z-index: 5;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+    .fs__vignette {
+      position: absolute; inset: 0; pointer-events: none; z-index: 4;
+      background: radial-gradient(ellipse 80% 65% at 50% 42%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.62) 100%);
+    }
+    .display { font-family: Forum, 'Trajan Pro', Palatino, serif; font-weight: 400; }
+    .tnum { font-variant-numeric: tabular-nums; }
+  </style>
+</helmet>
+
+<div class="fs">
+
+  <!-- Two realms, two grounds: Yav' reads warmer, Nav' colder. -->
+  <div style="position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr;">
+    <div style="background: radial-gradient(ellipse 90% 70% at 40% 30%, #161b14 0%, #0d100e 70%);"></div>
+    <div style="background: radial-gradient(ellipse 90% 70% at 60% 30%, #101619 0%, #0b0e10 70%);"></div>
+  </div>
+
+  <div style="position: absolute; left: 719px; top: 96px; bottom: 96px; width: 2px; background: linear-gradient(180deg, rgba(56,66,58,0) 0%, #38423a 18%, #38423a 82%, rgba(56,66,58,0) 100%); z-index: 2;"></div>
+  <div style="position: absolute; left: 706px; top: 50%; margin-top: -14px; z-index: 3;">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <circle cx="14" cy="14" r="7.5" fill="#0d100e" stroke="#4b5a4c" stroke-width="1"/>
+      <path d="M14 4v6M14 18v6M4 14h6M18 14h6" stroke="#4b5a4c" stroke-width="1"/>
+      <circle cx="14" cy="14" r="2.2" fill="#c9a227"/>
+    </svg>
+  </div>
+
+  <header style="position: relative; z-index: 3; padding: 34px 56px 0; text-align: center;">
+    <p style="margin: 0 0 10px; font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: #7d8478;">
+      Выбор крепости
+    </p>
+    <h1 class="display" style="margin: 0; font-size: 40px; letter-spacing: 0.06em; color: #e9e1ce;">
+      Choose your castle
+    </h1>
+    <p style="margin: 12px 0 0; font-size: 13px; color: #7d8478;">
+      Each side fields <span class="tnum" style="color: #c9a227;">1500</span> gold. Pick a hall, then spend it.
+    </p>
+  </header>
+
+  <div style="position: relative; z-index: 3; display: grid; grid-template-columns: 1fr 1fr; padding: 38px 56px 0;">
+
+    <section style="padding-right: 46px; display: flex; flex-direction: column; gap: 18px;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid #262e28; padding-bottom: 12px;">
+        <div style="display: flex; align-items: baseline; gap: 12px;">
+          <h2 class="display" style="margin: 0; font-size: 26px; letter-spacing: 0.12em; color: #cfc5ad;">ЯВЬ</h2>
+          <span style="font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #7d8478;">The Waking World</span>
+        </div>
+        <span style="font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #c9a227; border: 1px solid #5c4d1c; padding: 4px 9px;">You</span>
+      </div>
+      <article style="display: flex; gap: 18px; padding: 18px; position: relative; background: linear-gradient(180deg, #1c2019 0%, #161a15 100%); border: 1px solid #a24d33; box-shadow: 0 0 0 1px #a24d3333, 0 14px 30px -18px rgba(0,0,0,0.9), inset 0 1px 0 rgba(233,225,206,0.05);">
+        <div style="position: absolute; top: -1px; left: -1px; width: 10px; height: 10px; border-top: 2px solid #c9a227; border-left: 2px solid #c9a227;"></div><div style="position: absolute; bottom: -1px; right: -1px; width: 10px; height: 10px; border-bottom: 2px solid #c9a227; border-right: 2px solid #c9a227;"></div>
+        <div style="flex: 0 0 auto; width: 74px; height: 88px; display: grid; place-items: center; background: #0e1210; clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);">
+          <svg width="44" height="50" viewBox="0 0 46 52" fill="#a24d33" color="#a24d33" style="margin-bottom: 8px;" aria-hidden="true"><circle cx="23" cy="26" r="20" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M23 9l14 17-14 17-14-17z"/><path d="M23 17.5l7 8.5-7 8.5-7-8.5z" fill="#0e1210"/><rect x="20" y="23" width="6" height="6"/></svg>
+        </div>
+        <div style="flex: 1 1 auto; min-width: 0;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+            <h3 class="display" style="margin: 0; font-size: 23px; letter-spacing: 0.05em; color: #e9e1ce;">Kitezh</h3>
+            <span style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #c9a227;">Chosen</span>
+          </div>
+          <p style="margin: 3px 0 0; font-size: 12px; letter-spacing: 0.14em; color: #6d7468;">КИТЕЖ</p>
+          <p style="margin: 9px 0 0; font-size: 13.5px; line-height: 1.55; color: #b3ad9c; text-wrap: pretty;">The sunken city&rsquo;s druzhina, still answering a prince six centuries drowned. Slow, ordered, impossible to shift.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px;"><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #c2a98f; border: 1px solid #3b332b; padding: 3px 8px;">Shield walls</span><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #c2a98f; border: 1px solid #3b332b; padding: 3px 8px;">Heavy foot</span><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #c2a98f; border: 1px solid #3b332b; padding: 3px 8px;">Low speed</span></div>
+        </div>
+      </article>
+      <article style="display: flex; gap: 18px; padding: 18px; background: #12160f; border: 1px solid #262e28;">
+        
+        <div style="flex: 0 0 auto; width: 74px; height: 88px; display: grid; place-items: center; background: #0e1210; clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);">
+          <svg width="44" height="50" viewBox="0 0 46 52" fill="#5f7f39" color="#5f7f39" style="margin-bottom: 8px;" aria-hidden="true"><rect x="21" y="30" width="4" height="18"/><path d="M23 2l9 13H14z"/><path d="M23 12l12 15H11z"/><path d="M23 22l15 16H8z"/></svg>
+        </div>
+        <div style="flex: 1 1 auto; min-width: 0;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+            <h3 class="display" style="margin: 0; font-size: 23px; letter-spacing: 0.05em; color: #cfc8b6;">Borovina</h3>
+            
+          </div>
+          <p style="margin: 3px 0 0; font-size: 12px; letter-spacing: 0.14em; color: #6d7468;">БОРОВИНА</p>
+          <p style="margin: 9px 0 0; font-size: 13.5px; line-height: 1.55; color: #9aa090; text-wrap: pretty;">Leshy&rsquo;s old forest, which has never once agreed to be walked through. Wolves, wood-wights, things wearing bark.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px;"><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #c2a98f; border: 1px solid #3b332b; padding: 3px 8px;">Fast</span><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #c2a98f; border: 1px solid #3b332b; padding: 3px 8px;">Swarm</span><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #c2a98f; border: 1px solid #3b332b; padding: 3px 8px;">Fragile</span></div>
+        </div>
+      </article>
+      <article style="display: flex; gap: 18px; padding: 18px; background: #12160f; border: 1px solid #262e28;">
+        
+        <div style="flex: 0 0 auto; width: 74px; height: 88px; display: grid; place-items: center; background: #0e1210; clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);">
+          <svg width="44" height="50" viewBox="0 0 46 52" fill="#6f8fa8" color="#6f8fa8" style="margin-bottom: 8px;" aria-hidden="true"><circle cx="23" cy="26" r="20" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M23 6v40M5.7 16l34.6 20M5.7 36l34.6-20" stroke="currentColor" stroke-width="2.6" fill="none"/><circle cx="23" cy="26" r="4.5"/></svg>
+        </div>
+        <div style="flex: 1 1 auto; min-width: 0;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+            <h3 class="display" style="margin: 0; font-size: 23px; letter-spacing: 0.05em; color: #cfc8b6;">Gromoboy</h3>
+            
+          </div>
+          <p style="margin: 3px 0 0; font-size: 12px; letter-spacing: 0.14em; color: #6d7468;">ГРОМОБОЙ</p>
+          <p style="margin: 9px 0 0; font-size: 13.5px; line-height: 1.55; color: #9aa090; text-wrap: pretty;">Perun&rsquo;s thunder-host, down off the ridge for one afternoon only. Strikes first, strikes hard, does not keep.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px;"><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #c2a98f; border: 1px solid #3b332b; padding: 3px 8px;">High initiative</span><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #c2a98f; border: 1px solid #3b332b; padding: 3px 8px;">Shooters</span><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #c2a98f; border: 1px solid #3b332b; padding: 3px 8px;">Thin HP</span></div>
+        </div>
+      </article>
+    </section>
+
+    <section style="padding-left: 46px; display: flex; flex-direction: column; gap: 18px;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid #262e28; padding-bottom: 12px;">
+        <span style="font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #6d7468; border: 1px solid #2c332a; padding: 4px 9px;">Opponent</span>
+        <div style="display: flex; align-items: baseline; gap: 12px;">
+          <span style="font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #7d8478;">The Beyond</span>
+          <h2 class="display" style="margin: 0; font-size: 26px; letter-spacing: 0.12em; color: #cfc5ad;">НАВЬ</h2>
+        </div>
+      </div>
+      <article style="display: flex; gap: 18px; padding: 18px; background: #0f1416; border: 1px solid #242c2e; opacity: 0.55;">
+        
+        <div style="flex: 0 0 auto; width: 74px; height: 88px; display: grid; place-items: center; background: #0c1012; clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);">
+          <svg width="44" height="50" viewBox="0 0 46 52" fill="#9a927c" color="#9a927c" style="margin-bottom: 8px;" aria-hidden="true"><ellipse cx="23" cy="31" rx="13" ry="17" fill="none" stroke="currentColor" stroke-width="2.6"/><rect x="21.7" y="10" width="2.6" height="40"/><circle cx="23" cy="8" r="5" fill="none" stroke="currentColor" stroke-width="2.6"/></svg>
+        </div>
+        <div style="flex: 1 1 auto; min-width: 0;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+            <h3 class="display" style="margin: 0; font-size: 23px; letter-spacing: 0.05em; color: #9aa09c;">Kostyanoy Dvor</h3>
+            
+          </div>
+          <p style="margin: 3px 0 0; font-size: 12px; letter-spacing: 0.14em; color: #5b6466;">КОСТЯНОЙ ДВОР</p>
+          <p style="margin: 9px 0 0; font-size: 13.5px; line-height: 1.55; color: #7b8486; text-wrap: pretty;">Koshchei&rsquo;s bone court, where the death is kept elsewhere &mdash; in a needle, in an egg, in a duck.</p>
+          
+        </div>
+      </article>
+      <article style="display: flex; gap: 18px; padding: 18px; position: relative; background: linear-gradient(180deg, #1c2019 0%, #161a15 100%); border: 1px solid #3d7a76; box-shadow: 0 0 0 1px #3d7a7633, 0 14px 30px -18px rgba(0,0,0,0.9), inset 0 1px 0 rgba(233,225,206,0.05);">
+        <div style="position: absolute; top: -1px; left: -1px; width: 10px; height: 10px; border-top: 2px solid #c9a227; border-left: 2px solid #c9a227;"></div><div style="position: absolute; bottom: -1px; right: -1px; width: 10px; height: 10px; border-bottom: 2px solid #c9a227; border-right: 2px solid #c9a227;"></div>
+        <div style="flex: 0 0 auto; width: 74px; height: 88px; display: grid; place-items: center; background: #0c1012; clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);">
+          <svg width="44" height="50" viewBox="0 0 46 52" fill="#3d7a76" color="#3d7a76" style="margin-bottom: 8px;" aria-hidden="true"><path d="M38 22c0-9-7-16-15-16S8 13 8 22c0 7 5 13 12 13 5 0 9-4 9-9 0-4-3-7-7-7-3 0-5 2-5 5" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><path d="M4 44c5-5 9-5 14 0s9 5 14 0 9-5 10-2" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+        </div>
+        <div style="flex: 1 1 auto; min-width: 0;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+            <h3 class="display" style="margin: 0; font-size: 23px; letter-spacing: 0.05em; color: #e9e1ce;">Topyla</h3>
+            <span style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #5f9e99;">Locked in</span>
+          </div>
+          <p style="margin: 3px 0 0; font-size: 12px; letter-spacing: 0.14em; color: #6d7468;">ТОПЫЛА</p>
+          <p style="margin: 9px 0 0; font-size: 13.5px; line-height: 1.55; color: #b3ad9c; text-wrap: pretty;">Vodyanoy&rsquo;s drowned mire. Rusalki who count your steps, bolotniks who hold the last one.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px;"><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #7fa5a3; border: 1px solid #2a3536; padding: 3px 8px;">Control</span><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #7fa5a3; border: 1px solid #2a3536; padding: 3px 8px;">Drag-under</span><span style="font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #7fa5a3; border: 1px solid #2a3536; padding: 3px 8px;">Middling</span></div>
+        </div>
+      </article>
+      <article style="display: flex; gap: 18px; padding: 18px; background: #0f1416; border: 1px solid #242c2e; opacity: 0.55;">
+        
+        <div style="flex: 0 0 auto; width: 74px; height: 88px; display: grid; place-items: center; background: #0c1012; clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);">
+          <svg width="44" height="50" viewBox="0 0 46 52" fill="#7b5a93" color="#7b5a93" style="margin-bottom: 8px;" aria-hidden="true"><path d="M23 4l17 13v15H6V17z"/><rect x="18" y="21" width="10" height="11" fill="#0e1210"/><path d="M15 32l-4 9M31 32l4 9" stroke="currentColor" stroke-width="3" fill="none"/><path d="M6 46l5-5 5 5M30 46l5-5 5 5" stroke="currentColor" stroke-width="2.6" fill="none"/></svg>
+        </div>
+        <div style="flex: 1 1 auto; min-width: 0;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+            <h3 class="display" style="margin: 0; font-size: 23px; letter-spacing: 0.05em; color: #9aa09c;">Yagaya Pushcha</h3>
+            
+          </div>
+          <p style="margin: 3px 0 0; font-size: 12px; letter-spacing: 0.14em; color: #5b6466;">ЯГАЯ ПУЩА</p>
+          <p style="margin: 9px 0 0; font-size: 13.5px; line-height: 1.55; color: #7b8486; text-wrap: pretty;">Baba Yaga&rsquo;s wildwood, fenced in lit bone. The hut turns to face you whichever way you come.</p>
+          
+        </div>
+      </article>
+    </section>
+  </div>
+
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 0 56px 34px;">
+    <div style="padding-right: 46px;">
+      <button style="width: 100%; padding: 15px 20px; font-family: Forum, Palatino, serif; font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase; color: #120f06; background: linear-gradient(180deg, #e6c14a 0%, #c9a227 100%); border: 1px solid #f0d878; cursor: pointer; box-shadow: 0 10px 26px -12px rgba(201,162,39,0.6);">
+        Lock in Kitezh
+      </button>
+      <p style="margin: 10px 0 0; text-align: center; font-size: 11.5px; letter-spacing: 0.1em; color: #6d7468;">
+        You can still change until you lock.
+      </p>
+    </div>
+    <div style="padding-left: 46px; text-align: center;">
+      <div style="padding: 15px 20px; border: 1px dashed #2a3536; color: #7fa5a3; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;">
+        Opponent ready
+      </div>
+      <p style="margin: 10px 0 0; font-size: 11.5px; letter-spacing: 0.1em; color: #5b6466;">
+        Waiting on you.
+      </p>
+    </div>
+  </div>
+
+  <div class="fs__vignette"></div>
+  <div class="fs__grain"></div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

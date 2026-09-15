@@ -1,0 +1,24 @@
+{
+  "artboards": [
+    { "file": "FactionSelect.dc.html", "title": "1 · Choose a castle", "x": 0, "y": 0, "w": 1440, "h": 900 },
+    { "file": "Recruitment.dc.html", "title": "2 · Recruit an army", "x": 1560, "y": 0, "w": 1440, "h": 900 },
+    { "file": "Main.dc.html", "title": "3 · Battle", "x": 3120, "y": 0, "w": 1440, "h": 940 }
+  ],
+  "annotations": [
+    {
+      "id": "flow-note",
+      "x": 0,
+      "y": -150,
+      "w": 620,
+      "text": "Match flow, left to right. Host picks from Явь, guest from Навь — the two sides never share a faction pool.\n\nNo heroes: recruitment is the whole pre-battle game."
+    },
+    {
+      "id": "battle-note",
+      "x": 3120,
+      "y": -150,
+      "w": 620,
+      "text": "15×11 hexes, HoMM3's board. Unreachable hexes sink into the dark rather than lighting up what you CAN reach — with a speed-8 stack that would be 122 of 165 cells, i.e. noise.\n\nThe red panel is the point: outcome before you commit."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}
