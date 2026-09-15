@@ -93,7 +93,7 @@ Vodyanoy's drowned mire. Rusalki who count your steps, bolotniks who hold the la
 | **Rusalka** <br><sub>РУСАЛКА · siren</sub> | 42 | 7 | 4 | 3–5 | 18 | 5 | 11 | **Siren Song** — Shield Wall does not reduce this damage. _(shoots, 10 shots)_ |
 | **Bolotnik** <br><sub>БОЛОТНИК · mire-warden</sub> | 58 | 9 | 10 | 4–7 | 34 | 4 | 6 | **Mire** — Enemies adjacent to it may move at most 2 hexes. |
 | **Drekavac** <br><sub>ДРЕКАВАЦ · screamer</sub> | 95 | 12 | 7 | 6–10 | 36 | 8 | 12 | **Shriek** — The target may not retaliate this round. |
-| **Vodyanoy** <br><sub>ВОДЯНОЙ · lord of the mere</sub> | 185 | 14 | 12 | 8–14 | 75 | 5 | 7 | **Drag Under** — After it attacks, the target is pulled one hex towards it. |
+| **Vodyanoy** <br><sub>ВОДЯНОЙ · lord of the mere</sub> | 185 | 14 | 12 | 8–14 | 75 | 5 | 7 | **Drag Under** — After it attacks, it changes places with the target. |
 
 <sub>One of each costs **396 g** of the 1500 g budget · 1 shooter</sub>
 

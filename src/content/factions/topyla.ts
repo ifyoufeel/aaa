@@ -81,7 +81,7 @@ export const topyla: FactionDef = {
       ability: {
         id: 'drag-under',
         name: 'Drag Under',
-        text: 'After it attacks, the target is pulled one hex towards it.',
+        text: 'After it attacks, it changes places with the target.',
       },
     },
   ],

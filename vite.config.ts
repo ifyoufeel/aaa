@@ -27,7 +27,10 @@ export default defineConfig({
     __BUILD_COMMIT__: JSON.stringify(buildCommit()),
   },
   test: {
-    environment: 'jsdom',
+    // Node by default: the engine and content tests are pure and spinning up a
+    // DOM for each of them dominated the run. Component tests opt in with a
+    // `@vitest-environment jsdom` docblock.
+    environment: 'node',
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
     // Playwright specs live in e2e/ and must not be collected by Vitest.
