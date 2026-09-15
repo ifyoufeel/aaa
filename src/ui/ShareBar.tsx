@@ -39,7 +39,8 @@ export function ShareBar({ url, connection }: { url: string; connection: Connect
       </button>
       {connection === 'local' && (
         <p className="sharebar__note">
-          No game server configured — this link only reaches another tab of this browser.
+          Could not open a peer-to-peer connection — this link only reaches another tab of this
+          browser.
         </p>
       )}
     </div>

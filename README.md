@@ -50,8 +50,12 @@ npm run dev
 | `npm run test` | Vitest unit tests |
 | `npm run e2e` | Playwright end-to-end tests |
 
-Multiplayer needs Supabase credentials — copy `.env.example` to `.env` and fill it in.
-Without them the app still builds and runs; only the networked screens are unavailable.
+Cross-device multiplayer works out of the box, no account needed: it connects the two
+browsers directly over WebRTC, using a free public broker only to make the initial
+introduction. For a connection that does not depend on either player's network (some
+restrictive corporate/campus networks block direct peer-to-peer), copy `.env.example` to
+`.env`, fill in Supabase credentials, and that real server relay is used instead whenever
+it's configured.
 
 ## Architecture
 
@@ -61,7 +65,7 @@ src/
   engine/   rule-agnostic core: seeded RNG, Result<T>, pure action reducer
   rules/    HoMM3 combat: initiative queue, retaliation, damage, victory
   content/  factions, units, battlefield dimensions, balance numbers
-  net/      Supabase Realtime rooms and the sync protocol
+  net/      rooms, the sync protocol, and its transports (WebRTC, Supabase, BroadcastChannel)
   ui/       screens, battle components, theme tokens
 ```
 

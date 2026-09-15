@@ -4,12 +4,13 @@ import {
   broadcastChannelTransport,
   supabaseTransport,
   supportsBroadcastChannel,
+  webrtcTransport,
 } from '../net'
 import type { Side } from '../rules'
 import { playerId } from './session'
 
 export type Connection =
-  /** Two people, two machines. */
+  /** Two people, two machines — over Supabase or a direct WebRTC link. */
   | 'remote'
   /** Two tabs of this browser. No account needed, and no other device. */
   | 'local'
@@ -81,16 +82,23 @@ export function useRoom(roomId: string | null, joining: boolean, seed: number): 
     let live: Room | null = null
 
     void (async () => {
+      // Supabase, when configured, is preferred: it is a real server relay
+      // with none of peer-to-peer's NAT/firewall failure modes. Otherwise
+      // WebRTC reaches another device with nothing to configure at all, and
+      // BroadcastChannel — same-browser only — is the last resort.
       const remote = await supabaseTransport({ roomId, senderId: playerId() })
       if (disposed) return
 
+      const p2p = remote ? null : await webrtcTransport({ roomId, isHost: side === 'yav' })
+      if (disposed) return
+
       const transport =
-        remote ?? (supportsBroadcastChannel() ? broadcastChannelTransport(roomId) : null)
+        remote ?? p2p ?? (supportsBroadcastChannel() ? broadcastChannelTransport(roomId) : null)
       if (!transport) {
         setConnection('unavailable')
         return
       }
-      setConnection(remote ? 'remote' : 'local')
+      setConnection(remote || p2p ? 'remote' : 'local')
 
       live = new Room({ transport, side, playerId: playerId(), seed })
       const off = live.subscribe(setSnapshot)

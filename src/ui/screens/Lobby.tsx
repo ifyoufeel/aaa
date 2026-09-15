@@ -61,9 +61,10 @@ export function Lobby({
 
       {connection === 'local' && (
         <p className="notice">
-          This build has no game server configured, so the link only reaches{' '}
-          <strong>another tab of this browser</strong> — good for trying it out, no use for
-          playing someone else. Add Supabase credentials to play across machines.
+          Could not open a peer-to-peer connection on this browser or network, so the link only
+          reaches <strong>another tab of this browser</strong> — good for trying it out, no use
+          for playing someone else. Add Supabase credentials for a connection that does not
+          depend on either player's network.
         </p>
       )}
       {connection === 'unavailable' && (

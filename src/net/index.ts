@@ -8,6 +8,7 @@ export type {
 export { Room } from './room'
 export type { RoomOptions, RoomSnapshot } from './room'
 export { canPlayRemotely, supabaseConfig, supabaseTransport } from './supabase'
+export { supportsWebRTC, webrtcTransport } from './webrtc'
 export {
   broadcastChannelTransport,
   loopbackPair,

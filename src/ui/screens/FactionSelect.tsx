@@ -112,10 +112,12 @@ export function FactionSelect({
         */}
         {!peerConnected && localOnly && (
           <p className="notice notice--bad faction__warning">
-            <strong>Your opponent has not joined.</strong> This build has no game server, so the
-            invite link only reaches <strong>another tab of this same browser</strong> — a
-            second device can never connect, and you will both wait here forever. Open the link
-            in a new tab to try it, or add Supabase credentials for real remote play.
+            <strong>Your opponent has not joined.</strong> This browser could not open a
+            peer-to-peer connection — unsupported, or this network blocks it — so the invite
+            link only reaches <strong>another tab of this same browser</strong>. A second device
+            can never connect here, and you will both wait forever. Open the link in a new tab
+            to try it, or add Supabase credentials for a connection that does not depend on
+            either player's network.
           </p>
         )}
         {!peerConnected && !localOnly && (

@@ -3,9 +3,11 @@ import { expect, test, type Page } from '@playwright/test'
 /**
  * Two players, one browser.
  *
- * Both pages live in the SAME browser context on purpose: the no-backend
- * transport is a BroadcastChannel, and channels do not cross context
- * boundaries — two isolated contexts would simply never see each other.
+ * Both pages live in the SAME browser context on purpose: whichever transport
+ * wins the race (WebRTC, or — once that fails, here, because the sandbox
+ * blocks it — BroadcastChannel), a shared context is what lets both pages
+ * reach each other at all. BroadcastChannel never crosses context boundaries,
+ * so two isolated contexts would simply never see each other.
  */
 async function bothPlay(page: Page, other: Page) {
   await page.goto('/')
@@ -47,18 +49,24 @@ test('two players fight a battle from one link', async ({ context }) => {
   const guest = await context.newPage()
   const errors: string[] = []
   /**
-   * The dev container proxies HTTPS through its own CA, which headless Chromium
-   * does not trust, so the webfont request fails here and only here. Everything
-   * else stays strict -- this filter names one specific network condition
-   * rather than swallowing console errors in general.
+   * The dev container's egress proxy only allowlists specific hosts: it
+   * proxies HTTPS through its own CA (which headless Chromium does not trust,
+   * so the webfont request fails here and only here), and it refuses the
+   * tunnel outright for the WebRTC transport's public signalling broker
+   * (0.peerjs.com), which a real player's browser and a real deploy can
+   * always reach. Both are this sandbox's own network policy, not the game.
+   * Everything else stays strict -- this filter names specific network
+   * conditions rather than swallowing console errors in general.
    */
-  const isProxyCertNoise = (text: string) =>
-    /ERR_CERT_AUTHORITY_INVALID|net::ERR_/.test(text)
+  const isSandboxNetworkNoise = (text: string) =>
+    /ERR_CERT_AUTHORITY_INVALID|net::ERR_|Establishing a tunnel via proxy server failed/.test(
+      text,
+    )
 
   for (const p of [host, guest]) {
     p.on('pageerror', (e) => errors.push(e.message))
     p.on('console', (m) => {
-      if (m.type() === 'error' && !isProxyCertNoise(m.text())) errors.push(m.text())
+      if (m.type() === 'error' && !isSandboxNetworkNoise(m.text())) errors.push(m.text())
     })
   }
 

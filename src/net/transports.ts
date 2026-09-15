@@ -1,13 +1,17 @@
 /**
  * Ways for two players to reach each other.
  *
- * Three rungs of a ladder, all behind the same `Transport` interface:
+ * Four rungs of a ladder, all behind the same `Transport` interface:
  *
  * - `loopbackPair`     two ends wired together in memory. Tests.
  * - `broadcastChannel` two tabs of the same browser. Real play with no backend
  *                      at all, and the quickest way to try a change.
- * - Supabase Realtime  two people on two machines. Needs a project; see
- *                      supabase.ts.
+ * - WebRTC             two people on two machines, no account needed. See
+ *                      webrtc.ts. The default for real cross-device play.
+ * - Supabase Realtime  two people on two machines, over a real server relay.
+ *                      Needs a project; see supabase.ts. Preferred over WebRTC
+ *                      when configured, since it has none of peer-to-peer's
+ *                      NAT/firewall failure modes.
  *
  * The room logic in room.ts cannot tell which one it is talking over.
  */
