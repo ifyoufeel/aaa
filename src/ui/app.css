@@ -339,6 +339,41 @@
   text-wrap: pretty;
 }
 
+.hall--unfinished {
+  opacity: 0.55;
+}
+
+.hall--unfinished .hall__title h3 {
+  color: var(--bone-mute);
+}
+
+.hall__badge--wip {
+  color: var(--bone-faint);
+}
+
+.hall__wip {
+  margin: var(--s-2) 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--bone-ghost);
+  border-left: 2px solid var(--ink-edge);
+  padding-left: var(--s-2);
+  text-wrap: pretty;
+}
+
+.unit__ability--dead {
+  color: var(--bone-ghost);
+}
+
+.unit__ability--dead .unit__ability-name {
+  color: var(--bone-faint);
+}
+
+.unit__ability-wip {
+  color: var(--blood);
+  font-style: italic;
+}
+
 .hall__tags {
   display: flex;
   flex-wrap: wrap;

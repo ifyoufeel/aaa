@@ -1,4 +1,5 @@
 import { factionsOf } from '../../content/factions'
+import { factionReadiness } from '../../rules'
 import type { FactionId } from '../../content/types'
 import type { Side } from '../../rules'
 import { Plaque } from '../Plaque'
@@ -86,6 +87,9 @@ function Realm({
       {factionsOf(side).map((faction) => {
         const isChosen = chosen === faction.id
         const showTags = mine || isChosen
+        // A hall whose abilities the engine does not enforce is shown but not
+        // offered. Its cards would promise things that simply do not happen.
+        const { live, total, ready } = factionReadiness(faction.units)
         return (
           <article
             key={faction.id}
@@ -93,12 +97,13 @@ function Realm({
               'hall',
               isChosen ? 'hall--chosen' : '',
               !mine && !isChosen ? 'hall--hidden' : '',
+              !ready ? 'hall--unfinished' : '',
             ]
               .filter(Boolean)
               .join(' ')}
             style={{ '--accent': FACTION_VAR[faction.id] } as React.CSSProperties}
           >
-            {mine ? (
+            {mine && ready ? (
               <button
                 type="button"
                 className="hall__hit"
@@ -114,13 +119,23 @@ function Realm({
             <div className="hall__body">
               <div className="hall__title">
                 <h3 className="display">{faction.name}</h3>
-                {isChosen && (
+                {isChosen ? (
                   <span className="hall__badge">{mine ? 'Chosen' : 'Locked in'}</span>
-                )}
+                ) : !ready ? (
+                  <span className="hall__badge hall__badge--wip">
+                    {live} of {total} ready
+                  </span>
+                ) : null}
               </div>
               <p className="hall__cyrillic">{faction.cyrillic}</p>
               <p className="hall__blurb">{faction.blurb}</p>
-              {showTags && (
+              {!ready && (
+                <p className="hall__wip">
+                  Not finished yet &mdash; {total - live} of its {total} units have abilities
+                  the game does not enforce, so its cards would not tell you the truth.
+                </p>
+              )}
+              {showTags && ready && (
                 <div className="hall__tags">
                   {faction.tags.map((tag) => (
                     <span key={tag} className="chip">

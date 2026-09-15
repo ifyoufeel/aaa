@@ -2,7 +2,9 @@ export { applyAction, blockedHexes } from './apply'
 export { chooseAction } from './ai'
 export {
   IMPLEMENTED as IMPLEMENTED_ABILITIES,
+  abilityIsLive,
   effectiveSpeed,
+  factionReadiness,
   hasAbility,
   isFlier,
 } from './abilities'

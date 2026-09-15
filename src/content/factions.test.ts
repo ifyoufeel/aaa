@@ -1,5 +1,6 @@
 import { BOARD, GOLD_BUDGET } from './balance'
 import { FACTIONS, factionsOf, getFaction, getUnit } from './factions'
+import { IMPLEMENTED_ABILITIES, factionReadiness } from '../rules'
 import type { AbilityId } from './types'
 
 describe('faction roster', () => {
@@ -102,5 +103,32 @@ describe('faction roster', () => {
     expect(getUnit('kitezh', 'bogatyr').cost).toBe(90)
     expect(() => getUnit('kitezh', 'nope')).toThrow(/unknown unit/)
     expect(() => getFaction('nope' as never)).toThrow(/unknown faction/)
+  })
+})
+
+describe('what the game will actually let you pick', () => {
+  it('only offers halls whose every ability the engine enforces', () => {
+    // A castle is offered on the faction screen if and only if all five of its
+    // abilities are live. Without this, a player picks Gromoboy, reads
+    // "Thunderbolt -- once a battle, strike any hex for 40 to 70", and nothing
+    // happens. A card that lies is worse than a castle that is missing.
+    const offered = FACTIONS.filter((f) => factionReadiness(f.units).ready)
+    expect(offered.length, 'no hall is fully implemented').toBeGreaterThan(0)
+
+    for (const faction of offered) {
+      for (const unit of faction.units) {
+        expect(
+          IMPLEMENTED_ABILITIES.has(unit.ability.id),
+          `${faction.id} is offered but ${unit.id}'s ${unit.ability.id} does nothing`,
+        ).toBe(true)
+      }
+    }
+  })
+
+  it('gives both realms at least one playable hall, or nobody can start', () => {
+    for (const realm of ['yav', 'nav'] as const) {
+      const playable = factionsOf(realm).filter((f) => factionReadiness(f.units).ready)
+      expect(playable.length, `${realm} has no finished hall`).toBeGreaterThan(0)
+    }
   })
 })

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { GOLD_BUDGET } from '../../content/balance'
 import { getFaction } from '../../content/factions'
 import type { FactionId } from '../../content/types'
+import { abilityIsLive } from '../../rules'
 import { Plaque } from '../Plaque'
 import { FACTION_VAR } from '../theme/factions'
 
@@ -123,9 +124,14 @@ export function Recruit({
                     <Stat label="Spd" value={unit.stats.speed} />
                     <Stat label="Ini" value={unit.stats.initiative} />
                   </dl>
-                  <p className="unit__ability">
+                  {/* An ability the engine does not enforce is marked, not
+                      quietly printed as though it worked. */}
+                  <p className={`unit__ability ${abilityIsLive(unit.ability.id) ? '' : 'unit__ability--dead'}`}>
                     <span className="unit__ability-name">{unit.ability.name}</span> &mdash;{' '}
                     {unit.ability.text}
+                    {!abilityIsLive(unit.ability.id) && (
+                      <span className="unit__ability-wip"> not in the game yet</span>
+                    )}
                     {unit.ranged ? ` Shoots, ${unit.ranged.shots} shots.` : ''}
                   </p>
                 </div>

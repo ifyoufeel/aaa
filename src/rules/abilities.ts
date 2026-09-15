@@ -168,3 +168,18 @@ export function effectiveSpeed(state: BattleState, stack: Stack): number {
 export function isFlier(stack: Stack): boolean {
   return hasAbility(stack, 'flight') || hasAbility(stack, 'mortar')
 }
+
+/** Every ability of this hall that the engine actually enforces. */
+export function factionReadiness(units: readonly { ability: { id: AbilityId } }[]): {
+  live: number
+  total: number
+  ready: boolean
+} {
+  const live = units.filter((u) => IMPLEMENTED.has(u.ability.id)).length
+  return { live, total: units.length, ready: live === units.length }
+}
+
+/** Whether this specific ability does anything yet. */
+export function abilityIsLive(id: AbilityId): boolean {
+  return IMPLEMENTED.has(id)
+}
