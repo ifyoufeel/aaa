@@ -1,0 +1,47 @@
+.boot {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem 1.25rem;
+  text-align: center;
+  /* Placeholder mood only -- the real treatment arrives with the M1 tokens. */
+  background: radial-gradient(ellipse at 50% 0%, #17201b 0%, #0b0d0c 62%);
+}
+
+.boot__kicker {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #6d7a6f;
+}
+
+.boot__title {
+  margin: 0;
+  font-size: clamp(2.25rem, 9vw, 4rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #f0e9d8;
+}
+
+.boot__blurb {
+  margin: 0;
+  max-width: 34rem;
+  line-height: 1.6;
+  color: #9aa39a;
+}
+
+.boot__stamp {
+  margin: 1.5rem 0 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: #5d6a5f;
+}
+
+.boot__stamp code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #c9a227;
+}

@@ -1,0 +1,30 @@
+/*
+ * Base reset only. The real visual language (M1) lands in src/ui/theme/tokens.css
+ * and nothing outside that file should hardcode a colour.
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #0b0d0c;
+  color: #e8e2d4;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
