@@ -1151,3 +1151,30 @@
   font-size: 11.5px;
   color: var(--bone-faint);
 }
+
+/* ── Faction select: confirm step ────────────────────────────────────── */
+
+.faction__foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.faction__confirm {
+  min-width: 18rem;
+}
+
+.faction__warning {
+  max-width: 40rem;
+  text-align: left;
+}
+
+/* Selected but not yet sent: dashed, so it reads as provisional. */
+.hall--chosen {
+  border-style: dashed;
+}
+
+.hall--committed {
+  border-style: solid;
+}

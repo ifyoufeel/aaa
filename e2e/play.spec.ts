@@ -21,8 +21,11 @@ async function bothPlay(page: Page, other: Page) {
   await expect(page.getByRole('heading', { name: /choose your castle/i })).toBeVisible()
   await expect(other.getByRole('heading', { name: /choose your castle/i })).toBeVisible()
 
+  // Choosing is two steps now: highlight the hall, then confirm it.
   await page.getByRole('button', { name: /choose kitezh/i }).click()
+  await page.getByRole('button', { name: /confirm kitezh/i }).click()
   await other.getByRole('button', { name: /choose topyla/i }).click()
+  await other.getByRole('button', { name: /confirm topyla/i }).click()
 
   // Recruitment.
   await expect(page.getByRole('heading', { name: 'Kitezh', level: 1 })).toBeVisible()

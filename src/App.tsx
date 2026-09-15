@@ -101,7 +101,13 @@ export default function App() {
       )
 
     case 'faction':
-      return withShare(<FactionSelect side={side} picks={snapshot.picks} onPick={pick} />)
+      return withShare(<FactionSelect
+          side={side}
+          picks={snapshot.picks}
+          onPick={pick}
+          peerConnected={snapshot.peerConnected}
+          localOnly={connection === 'local'}
+        />)
 
     case 'recruit':
       return mine ? (
@@ -114,7 +120,13 @@ export default function App() {
         />,
         )
       ) : (
-        withShare(<FactionSelect side={side} picks={snapshot.picks} onPick={pick} />)
+        withShare(<FactionSelect
+          side={side}
+          picks={snapshot.picks}
+          onPick={pick}
+          peerConnected={snapshot.peerConnected}
+          localOnly={connection === 'local'}
+        />)
       )
 
     case 'battle':

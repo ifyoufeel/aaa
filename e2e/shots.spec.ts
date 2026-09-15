@@ -23,7 +23,10 @@ test('screenshots', async ({ context }) => {
   await shot(host, '3-faction')
 
   await host.getByRole('button', { name: /choose kitezh/i }).click()
+  await shot(host, '3b-faction-selected')
+  await host.getByRole('button', { name: /confirm kitezh/i }).click()
   await guest.getByRole('button', { name: /choose topyla/i }).click()
+  await guest.getByRole('button', { name: /confirm topyla/i }).click()
 
   await host.bringToFront()
   for (const [unit, n] of [['Kmet', 14], ['Strelets', 8], ['Gridin', 4], ['Bogatyr', 3]] as const) {
