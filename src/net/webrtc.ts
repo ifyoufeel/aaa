@@ -107,9 +107,19 @@ export async function webrtcTransport(
   let closed = false
 
   function bind(c: import('peerjs').DataConnection): void {
-    conn = c
+    // `conn` is set only once this specific connection actually opens, not
+    // the moment it is created. A guest's dial that lands before the host has
+    // registered fails server-side by timing out the offer (PeerErrorType
+    // .PeerUnavailable) rather than by closing or erroring THIS DataConnection
+    // object — it is simply left forever pending. Claiming `conn` any earlier
+    // would leave every retry after the first permanently blocked by a dead
+    // connection that can never open, close, or error on its own.
     c.on('open', () => {
-      if (closed) return
+      // First one in wins: two connections can only both reach 'open' if two
+      // dials were in flight at once, and the loser should not silently
+      // replace an already-working channel.
+      if (closed || conn) return
+      conn = c
       for (const message of pending.splice(0)) void c.send(message)
       for (const handler of [...peerHandlers]) handler(true)
     })
